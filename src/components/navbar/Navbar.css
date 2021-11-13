@@ -1,0 +1,21 @@
+nav {
+    background-color: var(--blue-1);
+    font-size: 2rem;
+    padding: 0.5rem;
+    display: flex;
+}
+
+nav > * {
+    color: var(--white-1);
+}
+
+nav .logo {
+    display: none;
+}
+
+nav .logo .logo-text {
+    display: inline-block;
+}
+nav .menu {
+    margin-left: auto;
+}  
