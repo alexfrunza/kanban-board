@@ -1,0 +1,27 @@
+:root {
+    --blue-1: #6F81A6;
+    --blue-2: #8AA1BF;
+    --blue-3: #D5E5F2;
+    --green-1: #A4BFBD;
+    --white-1: #F2EDEB;
+}
+
+* {
+    margin: 0;
+    padding: 0;
+    font-family: 'Roboto', sans-serif;
+}
+
+button {
+    border: none;
+    margin: 0;
+    padding: 0;
+    font: inherit;
+    width: auto;
+    overflow: visible;
+    background: transparent;
+    line-height: normal;
+    -webkit-font-smoothing: inherit;
+    -moz-osx-font-smoothing: inherit;
+    -webkit-apperance: none;
+}
