@@ -4,6 +4,7 @@ import './Board.css';
 const Board = () => {
     const [boardName, setBoardName] = useState("My first board");
     const [boardNameEdit, setBoardNameEdit] = useState(false);
+    const [searchString, setSearchString] = useState('');
 
     const submitBoardName = (event) => {
         event.preventDefault();
@@ -29,14 +30,26 @@ const Board = () => {
     const boardNameTag = () => {
         if(!boardNameEdit) {
             return (
-                <h2 onClick={() => setBoardNameEdit(true)}>
+                <h2 className="boardName">
                     { boardName }
+                    <button 
+                        className="editBoardTitle" 
+                        onClick={() => setBoardNameEdit(true)}
+                    >
+                        <i className="fas fa-edit"></i>
+                    </button>
                 </h2>
             );
-        } else {
+        } else  {
             return (
-                <form onSubmit={ submitBoardName }>
+                <form className="boardName" onSubmit={ submitBoardName }>
                     <input type="text" name="boardName" defaultValue={boardName} />
+                    <button
+                        className="editBoardTitle"
+                        type="submit"
+                    >
+                        <i className="far fa-save"></i>
+                    </button>
                 </form>
             )
         }
@@ -46,10 +59,18 @@ const Board = () => {
 
     return (
         <main className='board'>
-            <div>
-                { boardNameTag() }
-            </div>
-                
+            { boardNameTag() }
+            <form 
+                className="searchInBoard" 
+                onSubmit={(event) => event.preventDefault()}>
+                <input 
+                    type="text"
+                    name="search" 
+                    value={ searchString }
+                    onChange={(event) => setSearchString(event.target.value)}
+                />
+                <i className="fas fa-search"></i>
+            </form>
         </main>
     );
 }

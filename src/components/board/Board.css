@@ -1,1 +1,64 @@
 /* TODO: Add style to board */
+
+main.board {
+    background-color: var(--green-1);
+    padding: 0.5rem;
+    min-height: 100vh;
+}
+
+main.board .boardName {
+    color: var(--dark-blue-1);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin: 2rem auto;
+    font-size: 2rem;
+    text-align: center;
+}
+
+main.board h2.boardName {
+    /* Page don't move when board name it's modified */
+    border: 2px solid transparent;
+}
+
+main.board .boardName .editBoardTitle {
+    color: inherit;
+    margin-left: 1rem;
+    font-size: 1.5rem;
+}
+
+main.board input[name='boardName'],
+main.board input[name='search'] {
+    border-radius: 2px;
+    border: 2px solid transparent;
+    font-size: 2rem;
+    color: inherit;
+    background-color: var(--blue-3);
+}
+
+main.board input[name='boardName'] {
+    width: 75%;
+}
+
+main.board input[name='boardName']:focus,
+main.board input[name='search']:focus {
+    border: 2px solid var(--blue-2);
+}
+
+main.board .searchInBoard {
+    position: relative;
+}
+
+main.board input[name='search'] {
+    color: var(--dark-blue-1);
+    padding-left: 1.75rem;
+    width: 100%;
+}
+
+main.board .searchInBoard .fa-search {
+    color: var(--dark-blue-1);
+    position: absolute;
+    left: 0.5rem;
+    top: 50%;
+    transform: translateY(-50%);
+}
