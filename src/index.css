@@ -4,12 +4,19 @@
     --blue-3: #D5E5F2;
     --green-1: #A4BFBD;
     --white-1: #F2EDEB;
+    --dark-blue-1: #3C4145;
 }
 
 * {
+    box-sizing: border-box;
     margin: 0;
     padding: 0;
     font-family: 'Roboto', sans-serif;
+}
+
+html,
+body {
+    overflow: hidden;
 }
 
 button {
