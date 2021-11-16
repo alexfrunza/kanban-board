@@ -18,7 +18,7 @@ main.board .boardName {
 
 main.board h2.boardName {
     /* Page don't move when board name it's modified */
-    border: 2px solid transparent;
+    border: 5px solid transparent;
 }
 
 main.board .boardName .editBoardTitle {
@@ -29,6 +29,7 @@ main.board .boardName .editBoardTitle {
 
 main.board input[name='boardName'],
 main.board input[name='search'] {
+    padding: 3px;
     border-radius: 2px;
     border: 2px solid transparent;
     font-size: 2rem;
