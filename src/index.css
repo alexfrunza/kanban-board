@@ -1,17 +1,17 @@
 :root {
-    --blue-1: #6F81A6;
-    --blue-2: #8AA1BF;
-    --blue-3: #D5E5F2;
-    --green-1: #A4BFBD;
-    --white-1: #F2EDEB;
-    --dark-blue-1: #3C4145;
+    --blue-1: #6f81a6;
+    --blue-2: #8aa1bf;
+    --blue-3: #d5e5f2;
+    --green-1: #a4bfbd;
+    --white-1: #f2edeb;
+    --dark-blue-1: #3c4145;
 }
 
 * {
     box-sizing: border-box;
     margin: 0;
     padding: 0;
-    font-family: 'Roboto', sans-serif;
+    font-family: "Roboto", sans-serif;
 }
 
 html,

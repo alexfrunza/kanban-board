@@ -1,0 +1,43 @@
+section.columnsSection {
+    margin-top: 1.5rem;
+}
+
+section.columnsSection .column {
+    border-radius: 2px;
+    margin-bottom: 1rem;
+    padding: 1rem;
+    background-color: var(--blue-2);
+    display: block;
+    min-height: 100px;
+}
+
+section.columnsSection .columnName {
+    color: var(--dark-blue-1);
+    font-weight: normal;
+    margin-bottom: 1rem;
+}
+
+section.columnsSection h3.columnName {
+    border: 3px solid transparent;
+}
+
+section.columnsSection .columnName i {
+    color: var(--dark-blue-1);
+}
+
+section.columnsSection .columnName input[name="columnName"] {
+    padding: 3px;
+    font-size: 1rem;
+    border: 2px solid transparent;
+    color: var(--dark-blue-1);
+    border-radius: 2px;
+    background-color: var(--blue-3);
+}
+
+section.columnsSection .columnName input[name="columnName"]:focus {
+    border: 2px solid var(--dark-blue-1);
+}
+
+section.columnsSection .editColumnName {
+    margin-left: 0.5rem;
+}

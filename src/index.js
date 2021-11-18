@@ -1,8 +1,8 @@
 import { render } from "react-dom";
-import { StrictMode } from 'react';
+import { StrictMode } from "react";
 import Navbar from "components/navbar/Navbar";
 import Board from "components/board/Board";
-import 'index.css';
+import "index.css";
 
 const App = () => {
     return (

@@ -1,5 +1,5 @@
-import React from 'react';
-import 'components/navbar/Navbar.css';
+import React from "react";
+import "components/navbar/Navbar.css";
 
 const Navbar = () => {
     return (
@@ -16,6 +16,6 @@ const Navbar = () => {
             </button>
         </nav>
     );
-}
+};
 
 export default Navbar;
