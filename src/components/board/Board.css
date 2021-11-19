@@ -1,9 +1,11 @@
 /* TODO: Add style to board */
 
 main.board {
+    display: flex;
+    flex-flow: column;
     background-color: var(--green-1);
     padding: 0.5rem;
-    min-height: 100vh;
+    height: calc(100vh - 3.5rem);
 }
 
 main.board .boardName {
@@ -62,4 +64,20 @@ main.board .searchInBoard .fa-search {
     left: 0.5rem;
     top: 50%;
     transform: translateY(-50%);
+}
+
+main.board .columnsSection {
+    margin-top: 1.5rem;
+    height: 100%;
+    overflow: auto;
+}
+
+/* Hide columns scrollbar */
+main.board .columnsSection::-webkit-scrollbar {
+    display: none;
+}
+
+main.board .columnsSection {
+    -ms-overflow-style: none;
+    scrollbar-width: none;
 }

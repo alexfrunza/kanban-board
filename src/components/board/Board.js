@@ -24,7 +24,7 @@ const mockBoard = {
             cards: [
                 {
                     name: "My first card",
-                    description: "bla bla",
+                    description: "",
                     id: "8383",
                     labels: [
                         {
@@ -38,7 +38,7 @@ const mockBoard = {
                 {
                     name: "My second card",
                     description: "bla bla",
-                    id: "8383",
+                    id: "801f383",
                     labels: [
                         {
                             name: "bug",
@@ -57,7 +57,7 @@ const mockBoard = {
                 {
                     name: "My third card",
                     description: "bla bla",
-                    id: "8383",
+                    id: "8383asear",
                     labels: [
                         {
                             name: "bug",

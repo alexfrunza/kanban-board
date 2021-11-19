@@ -1,9 +1,11 @@
 import React, { useState, useEffect } from "react";
+import Card from "components/card/Card";
 import "components/column/Column.css";
 
 const Column = (props) => {
     const [name, setName] = useState(props.value.name);
     const [id] = useState(props.value.id);
+    const [cards] = useState(props.value.cards);
     const [columnNameEdit, setColumnNameEdit] = useState(false);
 
     useEffect(() => {
@@ -61,6 +63,10 @@ const Column = (props) => {
     return (
         <div id={id} className="column">
             {columnNameTag()}
+            {cards.map((data) => {
+                console.log(data);
+                return <Card key={data.id} value={data} />;
+            })}
         </div>
     );
 };
