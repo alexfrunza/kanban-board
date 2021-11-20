@@ -21,7 +21,7 @@ const Column = (props) => {
 
     const submitName = (event) => {
         event.preventDefault();
-        const name = event.target.columnName.value;
+        const name = event.target.columnName.value.trim();
         if (name) {
             setName(name);
             // TODO: Change column name to database
@@ -64,7 +64,6 @@ const Column = (props) => {
         <div id={id} className="column">
             {columnNameTag()}
             {cards.map((data) => {
-                console.log(data);
                 return <Card key={data.id} value={data} />;
             })}
         </div>

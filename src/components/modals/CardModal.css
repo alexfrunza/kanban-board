@@ -1,0 +1,63 @@
+.card .modalMenu {
+    color: var(--white-1);
+    position: absolute;
+    background: var(--blue-1);
+    height: 100vh;
+    width: 100vw;
+    top: 0;
+    left: 0;
+    padding: 3.5rem 1rem 1rem 1rem;
+}
+
+.card .modalMenu .close-modalEdit {
+    color: var(--white-1);
+    font-size: 2rem;
+    position: absolute;
+    top: 10px;
+    left: 1rem;
+}
+
+.card .modalMenu h2 {
+    margin-bottom: 1rem;
+    text-align: center;
+}
+
+.card .modalMenu .cardField {
+    margin-bottom: 2rem;
+}
+
+.card .modalMenu .cardField .cardFieldName {
+    font-size: 1.5rem;
+    margin-bottom: 0.5rem;
+}
+
+.card .modalMenu .cardField .fa-edit,
+.card .modalMenu .cardField .fa-save {
+    color: var(--white-1);
+    margin-left: 0.5rem;
+}
+
+.card .modalMenu .cardField p {
+    border: 5px solid transparent;
+    border-left: none;
+}
+
+.card .modalMenu .cardField input {
+    color: var(--dark-blue-1);
+    font-size: 1rem;
+    background-color: var(--blue-3);
+    width: 100%;
+    padding: 3px;
+    border-radius: 2px;
+    border: 2px solid var(--blue-2);
+}
+
+.card .modalMenu .cardField textarea[name="cardDescription"] {
+    background-color: var(--blue-3);
+    color: var(--dark-blue-1);
+    font-size: 1rem;
+    width: 100%;
+    padding: 3px;
+    border-radius: 2px;
+    border: 2px solid var(--blue-2);
+}

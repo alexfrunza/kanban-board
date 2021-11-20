@@ -102,7 +102,7 @@ const Board = () => {
 
     const submitBoardName = (event) => {
         event.preventDefault();
-        const name = event.target.boardName.value;
+        const name = event.target.boardName.value.trim();
         if (name) {
             setBoardName(name);
             // TODO: Change board name to database

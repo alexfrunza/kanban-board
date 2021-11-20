@@ -1,13 +1,41 @@
-import React, { useState, useEfect } from "react";
+import React, { useState } from "react";
+import CardModal from "components/modals/CardModal";
 import "components/card/Card.css";
 
 const Card = (props) => {
-    console.log(props);
-    const [description] = useState(props.value.description);
+    const [name, setName] = useState(props.value.name);
+    const [description, setDescription] = useState(props.value.description);
+    const [labels, setLabels] = useState(props.value.labels);
+    const [assignedTo, setAssignedTo] = useState(props.value.assignedTo);
+    const [modalEdit, setModalEdit] = useState(false);
+
+    const modifyName = (text) => {
+        console.log('foo');
+        // TODO: API Call
+        setName(text);
+    }
+
+    const modifyDescription = (text) => {
+        // TODO: API CAll
+        setDescription(text);
+    }
 
     return (
-        <div className="card">
-            <h3> {props.value.name} </h3>
+        <div className="card" onClick={() => setModalEdit(true)}>
+            {modalEdit ? (
+                <CardModal
+                    modifyCardName={modifyName}
+                    modifyCardDescription={modifyDescription}
+                    cardName={name}
+                    cardDescription={description}
+                    cardLabels={labels}
+                    cardAssignedTo={assignedTo}
+                    setModalEdit={setModalEdit}
+                />
+            ) : (
+                ""
+            )}
+            <h3> {name} </h3>
             <div className="properties">
                 {/* TODO: Implement labels and assignedTo */}
                 <div className="assignedTo"></div>

@@ -68,6 +68,7 @@ main.board .searchInBoard .fa-search {
 
 main.board .columnsSection {
     margin-top: 1.5rem;
+    padding-bottom: 3rem;
     height: 100%;
     overflow: auto;
 }
