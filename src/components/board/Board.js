@@ -1,5 +1,9 @@
 import React, { useState, useEffect } from "react";
+import { useRecoilState, useRecoilValue } from "recoil";
 import Column from "components/column/Column";
+import CardEditModal from "components/modals/CardEditModal";
+import { columnsState } from "store/board/columnsState.js";
+import { cardEditModal } from "store/board/boardState.js";
 import "components/board/Board.css";
 
 const mockBoard = {
@@ -90,7 +94,8 @@ const Board = () => {
     const [boardNameEdit, setBoardNameEdit] = useState(false);
     const [searchString, setSearchString] = useState("");
 
-    const [columns, setColumns] = useState([]);
+    const [columns, setColumns] = useRecoilState(columnsState);
+    const cardEdit = useRecoilValue(cardEditModal);
 
     // Fetch the data from API
     useEffect(() => {
@@ -153,6 +158,7 @@ const Board = () => {
 
     return (
         <main className="board">
+            {cardEdit ? <CardEditModal /> : ""}
             {boardNameTag()}
             <form
                 className="searchInBoard"
@@ -168,8 +174,8 @@ const Board = () => {
                 <i className="fas fa-search"></i>
             </form>
             <section className="columnsSection">
-                {columns.map((data) => {
-                    return <Column key={data.id} value={data} />;
+                {columns.map((column) => {
+                    return <Column key={column.id} value={column} />;
                 })}
             </section>
         </main>

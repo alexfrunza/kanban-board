@@ -64,7 +64,13 @@ const Column = (props) => {
         <div id={id} className="column">
             {columnNameTag()}
             {cards.map((data) => {
-                return <Card key={data.id} value={data} />;
+                return (
+                    <Card
+                        columnId={id}
+                        key={data.id}
+                        value={data}
+                    />
+                );
             })}
         </div>
     );

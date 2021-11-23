@@ -1,7 +1,13 @@
 import React, { useState, useEffect } from "react";
-import "components/modals/CardModal.css";
+import { useRecoilValue, useSetRecoilState } from 'recoil';
+import { columnsState } from "store/board/columnsState.js";
+import { cardEditModal } from "store/board/boardState.js";
+import "components/modals/CardEditModal.css";
 
-const CardModal = (props) => {
+const CardEditModal = (props) => {
+    const setCardEdit = useSetRecoilState(cardEditModal);
+
+    const [cardId] = useState(props.cardId);
     const [cardName, setCardName] = useState(props.cardName);
     const [cardNameEdit, setCardNameEdit] = useState(false);
 
@@ -9,6 +15,9 @@ const CardModal = (props) => {
         props.cardDescription
     );
     const [cardDescriptionEdit, setCardDescriptionEdit] = useState(false);
+
+    const [cardColumnId, setCardColumnId] = useState(props.columnId);
+    const columns = useRecoilValue(columnsState);
 
     // TODO
     const [cardLabels, setCardLabels] = useState(props.cardLabels);
@@ -20,7 +29,6 @@ const CardModal = (props) => {
         if (!cardName.trim()) {
             setCardName(props.cardName);
         }
-        props.modifyCardName(cardName);
         setCardNameEdit(false);
     };
 
@@ -30,6 +38,12 @@ const CardModal = (props) => {
         props.modifyCardDescription(cardDescription.trim());
         setCardDescription(cardDescription.trim());
         setCardDescriptionEdit(false);
+    };
+
+    const modifyCardColumn = (event) => {
+        event.stopPropagation();
+        event.preventDefault();
+        props.changeCardColumn(cardId, props.columnId, cardColumnId);
     };
 
     useEffect(() => {
@@ -54,7 +68,7 @@ const CardModal = (props) => {
                 onClick={(event) => {
                     event.stopPropagation();
                     event.preventDefault();
-                    props.setModalEdit(false);
+                    setCardEdit(false);
                 }}
             >
                 <i className="fas fa-times close-modalEdit"></i>
@@ -99,9 +113,7 @@ const CardModal = (props) => {
                 <h4 className="cardFieldName">
                     Descriere
                     {cardDescriptionEdit ? (
-                        <button
-                            onClick={modifyCardDescription}
-                        >
+                        <button onClick={modifyCardDescription}>
                             <i className="far fa-save"></i>
                         </button>
                     ) : (
@@ -117,9 +129,7 @@ const CardModal = (props) => {
                     )}
                 </h4>
                 {cardDescriptionEdit ? (
-                    <form
-                        onSubmit={modifyCardDescription}
-                    >
+                    <form onSubmit={modifyCardDescription}>
                         <textarea
                             name="cardDescription"
                             value={cardDescription}
@@ -152,8 +162,35 @@ const CardModal = (props) => {
                 </h4>
                 <p> </p>
             </div>
+            <div className="cardField">
+                <h4 className="cardFieldName">
+                    Coloana
+                    <button onClick={modifyCardColumn}>
+                        <i className="far fa-save"></i>
+                    </button>
+                </h4>
+                <form onSubmit={modifyCardColumn}>
+                    <select
+                        value={cardColumnId}
+                        onChange={(event) => {
+                            event.preventDefault();
+                            event.stopPropagation();
+                            setCardColumnId(event.target.value);
+                        }}
+                    >
+                        {columns.map((column, index) => {
+                            return (
+                                <option value={column.id} key={column.id}>
+                                {`${index + 1}. ${
+                                    column.name
+                                }`}</option>
+                            );
+                        })}
+                    </select>
+                </form>
+            </div>
         </div>
     );
 };
 
-export default CardModal;
+export default CardEditModal;

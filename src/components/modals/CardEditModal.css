@@ -1,4 +1,5 @@
-.card .modalMenu {
+.board .modalMenu {
+    z-index: 100;
     color: var(--white-1);
     position: absolute;
     background: var(--blue-1);
@@ -9,7 +10,7 @@
     padding: 3.5rem 1rem 1rem 1rem;
 }
 
-.card .modalMenu .close-modalEdit {
+.board .modalMenu .close-modalEdit {
     color: var(--white-1);
     font-size: 2rem;
     position: absolute;
@@ -17,32 +18,32 @@
     left: 1rem;
 }
 
-.card .modalMenu h2 {
+.board .modalMenu h2 {
     margin-bottom: 1rem;
     text-align: center;
 }
 
-.card .modalMenu .cardField {
+.board .modalMenu .cardField {
     margin-bottom: 2rem;
 }
 
-.card .modalMenu .cardField .cardFieldName {
+.board .modalMenu .cardField .cardFieldName {
     font-size: 1.5rem;
     margin-bottom: 0.5rem;
 }
 
-.card .modalMenu .cardField .fa-edit,
-.card .modalMenu .cardField .fa-save {
+.board .modalMenu .cardField .fa-edit,
+.board .modalMenu .cardField .fa-save {
     color: var(--white-1);
     margin-left: 0.5rem;
 }
 
-.card .modalMenu .cardField p {
+.board .modalMenu .cardField p {
     border: 5px solid transparent;
     border-left: none;
 }
 
-.card .modalMenu .cardField input {
+.board .modalMenu .cardField input {
     color: var(--dark-blue-1);
     font-size: 1rem;
     background-color: var(--blue-3);
@@ -52,7 +53,7 @@
     border: 2px solid var(--blue-2);
 }
 
-.card .modalMenu .cardField textarea[name="cardDescription"] {
+.board .modalMenu .cardField textarea[name="cardDescription"] {
     background-color: var(--blue-3);
     color: var(--dark-blue-1);
     font-size: 1rem;
