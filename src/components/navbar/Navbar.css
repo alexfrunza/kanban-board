@@ -1,17 +1,28 @@
 nav {
-    background-color: var(--blue-1);
+    position: relative;
+    background-color: var(--white);
     font-size: 2rem;
     padding: 0.5rem;
     display: flex;
     min-height: 3.5rem;
+    border-bottom: 5px var(--grey) solid;
 }
 
 nav > * {
-    color: var(--white-1);
+    color: var(--black);
 }
 
 nav .logo {
-    display: none;
+    font-size: 3rem;
+    height: 5rem;
+    width: 5rem;
+    border-radius: 50%;
+    position: absolute;
+    top: 75%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    border: 5px var(--grey) solid;
+    background: var(--white);
 }
 
 nav .logo .logo-text {

@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import { useSetRecoilState } from "recoil";
-import { cardEditModal } from "store/board/boardState.js";
+import { cardEditModalState } from "store/board/boardState.js";
 import "components/card/Card.css";
 
 const Card = (props) => {
@@ -11,7 +11,7 @@ const Card = (props) => {
     const [labels, setLabels] = useState(props.value.labels);
     const [assignedTo, setAssignedTo] = useState(props.value.assignedTo);
 
-    const setCardEdit = useSetRecoilState(cardEditModal);
+    const setCardEdit = useSetRecoilState(cardEditModalState);
 
     return (
         <div

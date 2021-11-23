@@ -3,24 +3,28 @@
 main.board {
     display: flex;
     flex-flow: column;
-    background-color: var(--green-1);
+    background-color: var(--black);
     padding: 0.5rem;
     height: calc(100vh - 3.5rem);
 }
 
 main.board .boardName {
-    color: var(--dark-blue-1);
+    color: var(--white);
     display: flex;
     justify-content: center;
     align-items: center;
     margin: 2rem auto;
-    font-size: 2rem;
     text-align: center;
 }
 
-main.board h2.boardName {
+main.board div.boardName {
     /* Page don't move when board name it's modified */
     border: 5px solid transparent;
+}
+
+main.board div.boardName h2 {
+    font-size: 2rem;
+    word-break: break-all;
 }
 
 main.board .boardName .editBoardTitle {
@@ -35,8 +39,8 @@ main.board input[name="search"] {
     border-radius: 2px;
     border: 2px solid transparent;
     font-size: 2rem;
-    color: inherit;
-    background-color: var(--blue-3);
+    color: var(--black);
+    background-color: var(--white);
 }
 
 main.board input[name="boardName"] {
@@ -45,7 +49,8 @@ main.board input[name="boardName"] {
 
 main.board input[name="boardName"]:focus,
 main.board input[name="search"]:focus {
-    border: 2px solid var(--blue-2);
+    border: 2px solid var(--blue);
+    outline: none;
 }
 
 main.board .searchInBoard {
@@ -53,13 +58,13 @@ main.board .searchInBoard {
 }
 
 main.board input[name="search"] {
-    color: var(--dark-blue-1);
+    color: var(--black);
     padding-left: 1.75rem;
     width: 100%;
 }
 
 main.board .searchInBoard .fa-search {
-    color: var(--dark-blue-1);
+    color: var(--black);
     position: absolute;
     left: 0.5rem;
     top: 50%;

@@ -2,15 +2,24 @@ section.columnsSection .column {
     border-radius: 2px;
     margin-bottom: 1rem;
     padding: 1rem;
-    background-color: var(--blue-2);
+    background-color: var(--white);
     display: block;
     min-height: 100px;
 }
 
-section.columnsSection .columnName {
-    color: var(--dark-blue-1);
-    font-weight: normal;
+section.columnsSection .columnHeader {
     margin-bottom: 1rem;
+    padding: 0.5rem;
+    border-bottom: 2px solid var(--orange);
+    border-radius: 2px;
+    display: flex;
+    justify-content: space-between;
+    align-content: center;
+}
+
+section.columnsSection .columnName {
+    color: var(--black);
+    font-weight: normal;
 }
 
 section.columnsSection h3.columnName {
@@ -18,20 +27,21 @@ section.columnsSection h3.columnName {
 }
 
 section.columnsSection .columnName i {
-    color: var(--dark-blue-1);
+    color: var(--black);
 }
 
 section.columnsSection .columnName input[name="columnName"] {
     padding: 3px;
     font-size: 1rem;
     border: 2px solid transparent;
-    color: var(--dark-blue-1);
+    color: var(--black);
     border-radius: 2px;
-    background-color: var(--blue-3);
+    background-color: var(--light-grey);
 }
 
 section.columnsSection .columnName input[name="columnName"]:focus {
-    border: 2px solid var(--dark-blue-1);
+    border: 2px solid var(--orange);
+    outline: none;
 }
 
 section.columnsSection .editColumnName {

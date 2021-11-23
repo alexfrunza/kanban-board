@@ -1,11 +1,10 @@
 import React, { useState, useEffect } from "react";
 import { useRecoilValue, useSetRecoilState } from 'recoil';
-import { columnsState } from "store/board/columnsState.js";
-import { cardEditModal } from "store/board/boardState.js";
+import { cardEditModalState, columnsState } from "store/board/boardState.js";
 import "components/modals/CardEditModal.css";
 
 const CardEditModal = (props) => {
-    const setCardEdit = useSetRecoilState(cardEditModal);
+    const setCardEdit = useSetRecoilState(cardEditModalState);
 
     const [cardId] = useState(props.cardId);
     const [cardName, setCardName] = useState(props.cardName);
