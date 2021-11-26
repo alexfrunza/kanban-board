@@ -1,33 +1,32 @@
-import React, { useState } from "react";
+import React from "react";
 import { useSetRecoilState } from "recoil";
-import { cardEditModalState } from "store/board/boardState.js";
+import { cardEditModalState, editedCardState } from "store/board/boardState.js";
 import "components/card/Card.css";
 
 const Card = (props) => {
-    const [id] = useState(props.value.id);
-    const [name, setName] = useState(props.value.name);
-    const [columnId] = useState(props.columnId);
-    const [description, setDescription] = useState(props.value.description);
-    const [labels, setLabels] = useState(props.value.labels);
-    const [assignedTo, setAssignedTo] = useState(props.value.assignedTo);
+    const data = props.value;
 
     const setCardEdit = useSetRecoilState(cardEditModalState);
+    const setEditedCard = useSetRecoilState(editedCardState);
 
     return (
         <div
             className="card"
             onClick={() => {
                 setCardEdit(true);
+                setEditedCard(data);
             }}
         >
-            <h3> {name} </h3>
+            <h3> {data.name} </h3>
             <div className="properties">
                 {/* TODO: Implement labels and assignedTo */}
                 <div className="assignedTo"></div>
                 <div className="labels"></div>
                 <i
                     className="fas fa-align-left description-icon"
-                    style={{ display: description ? "inline-block" : "none" }}
+                    style={{
+                        display: data.description ? "inline-block" : "none",
+                    }}
                 ></i>
             </div>
         </div>

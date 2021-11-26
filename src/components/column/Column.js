@@ -14,6 +14,7 @@ const Column = (props) => {
     const data = useRecoilValue(currentColumnState);
 
     const [columnNameEdit, setColumnNameEdit] = useState(false);
+    const [addCardEdit, setAddCardEdit] = useState(false);
 
     useEffect(() => {
         if (columnNameEdit) {
@@ -26,12 +27,17 @@ const Column = (props) => {
         }
     }, [columnNameEdit, data]);
 
+    const resetColumn = () => {
+        setColumnNameEdit(false);
+    };
+
     const changeColumnLeft = () => {
         if (number !== 0) {
             setNumber(number - 1);
         } else {
             setNumber(columns.length - 1);
         }
+        resetColumn();
     };
 
     const changeColumnRight = () => {
@@ -40,6 +46,7 @@ const Column = (props) => {
         } else {
             setNumber(0);
         }
+        resetColumn();
     };
 
     const submitName = (event) => {
@@ -47,7 +54,7 @@ const Column = (props) => {
         const name = event.target.columnName.value.trim();
         if (name) {
             let columnsCpy = [...columns];
-            columnsCpy[number] = {...data, name};
+            columnsCpy[number] = { ...data, name };
             setColumns(columnsCpy);
             // TODO: Change column name to database
         }
@@ -58,15 +65,21 @@ const Column = (props) => {
     const columnNameTag = () => {
         if (!columnNameEdit) {
             return (
-                <h3 className="columnName">
-                    {data.name}
+                <div className="columnName">
+                    <h3>{data.name}</h3>
                     <button
                         className="editColumnName"
                         onClick={() => setColumnNameEdit(true)}
                     >
                         <i className="fas fa-edit"></i>
                     </button>
-                </h3>
+                    <button
+                        className="addCard"
+                        onClick={() => setAddCardEdit(true)}
+                    >
+                        <i className="fas fa-plus"></i>
+                    </button>
+                </div>
             );
         } else {
             return (
@@ -86,31 +99,34 @@ const Column = (props) => {
     };
 
     const showColumn = () => {
-        if(data) {
-            return (<div id={data.id} className="column">
-            <div className="columnHeader">
-                <button className="changeColumn" onClick={changeColumnLeft}>
-                    <i className="fas fa-chevron-left"></i>
-                </button>
-                {columnNameTag()}
-                <button className="changeColumn" onClick={changeColumnRight}>
-                    <i className="fas fa-chevron-right"></i>
-                </button>
-            </div>
-            {data.cards.map((data) => {
-                return <Card columnId={data.id} key={data.id} value={data} />;
-            })}
-        </div>);
+        if (data) {
+            return (
+                <div id={data.id} className="column">
+                    <div className="columnHeader">
+                        <button
+                            className="changeColumn"
+                            onClick={changeColumnLeft}
+                        >
+                            <i className="fas fa-chevron-left"></i>
+                        </button>
+                        {columnNameTag()}
+                        <button
+                            className="changeColumn"
+                            onClick={changeColumnRight}
+                        >
+                            <i className="fas fa-chevron-right"></i>
+                        </button>
+                    </div>
+                    {data.cards.map((card) => {
+                        return <Card key={card.id} value={card} />;
+                    })}
+                </div>
+            );
         }
         return "";
-    }
+    };
 
-
-    return (
-        <div>
-        {showColumn()}
-    </div>
-    );
+    return <div>{showColumn()}</div>;
 };
 
 export default Column;

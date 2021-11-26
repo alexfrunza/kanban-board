@@ -1,48 +1,119 @@
 import React, { useState, useEffect } from "react";
-import { useRecoilValue, useSetRecoilState } from 'recoil';
-import { cardEditModalState, columnsState } from "store/board/boardState.js";
+import { useRecoilValue, useSetRecoilState, useRecoilState } from "recoil";
+import {
+    cardEditModalState,
+    columnsState,
+    editedCardState,
+} from "store/board/boardState.js";
 import "components/modals/CardEditModal.css";
 
 const CardEditModal = (props) => {
     const setCardEdit = useSetRecoilState(cardEditModalState);
+    const [editedCard, setEditedCard] = useRecoilState(editedCardState);
 
-    const [cardId] = useState(props.cardId);
-    const [cardName, setCardName] = useState(props.cardName);
     const [cardNameEdit, setCardNameEdit] = useState(false);
-
-    const [cardDescription, setCardDescription] = useState(
-        props.cardDescription
-    );
     const [cardDescriptionEdit, setCardDescriptionEdit] = useState(false);
 
-    const [cardColumnId, setCardColumnId] = useState(props.columnId);
-    const columns = useRecoilValue(columnsState);
+    const [columns, setColumns] = useRecoilState(columnsState);
 
-    // TODO
-    const [cardLabels, setCardLabels] = useState(props.cardLabels);
-    const [cardAssignedTo, setCardAssignedTo] = useState(props.cardAssignedTo);
+    const replaceCard = (editedCardCpy) => {
+        let columnsCpy = [...columns];
+        let cardColumn = Object.assign(
+            {},
+            columnsCpy.find((column) => column.id === editedCard.columnId)
+        );
+        let cardColumnIndex = columnsCpy.findIndex(
+            (column) => column.id === editedCard.columnId
+        );
+
+        cardColumn.cards = cardColumn.cards.map((card, index) => {
+            if (card.id === editedCardCpy.id) return editedCardCpy;
+            else return card;
+        });
+
+        columnsCpy[cardColumnIndex] = cardColumn;
+        setColumns(columnsCpy);
+        setEditedCard(editedCardCpy);
+    };
+
+    const deleteCard = (columns, columnId, cardId) => {
+        let columnsCpy = [...columns];
+        let cardColumn = Object.assign(
+            {},
+            columnsCpy.find((column) => column.id === columnId)
+        );
+        let cardColumnIndex = columnsCpy.findIndex(
+            (column) => column.id === columnId
+        );
+
+        cardColumn.cards = cardColumn.cards.filter(
+            (card) => card.id !== cardId
+        );
+
+        columnsCpy[cardColumnIndex] = cardColumn;
+        return columnsCpy;
+    };
+
+    const addNewCard = (columns, columnId, cardObj) => {
+        let cardObjCpy = {...cardObj};
+        cardObjCpy.columnId = columnId;
+
+        let columnsCpy = [...columns];
+        let cardColumn = Object.assign(
+            {},
+            columnsCpy.find((column) => column.id === columnId)
+        );
+        let cardColumnIndex = columnsCpy.findIndex(
+            (column) => column.id === columnId
+        );
+
+        cardColumn.cards = cardColumn.cards.concat([cardObjCpy]);
+        columnsCpy[cardColumnIndex] = cardColumn;
+        return columnsCpy;
+    };
 
     const modifyCardName = (event) => {
         event.preventDefault();
         event.stopPropagation();
-        if (!cardName.trim()) {
-            setCardName(props.cardName);
+
+        const newName = document.querySelector('[name="cardName"]').value;
+        if (newName.trim()) {
+            let editedCardCpy = {
+                ...editedCard,
+                name: newName,
+            };
+            replaceCard(editedCardCpy);
         }
+
         setCardNameEdit(false);
     };
 
     const modifyCardDescription = (event) => {
         event.stopPropagation();
         event.preventDefault();
-        props.modifyCardDescription(cardDescription.trim());
-        setCardDescription(cardDescription.trim());
+
+        const newDescription = document.querySelector(
+            '[name="cardDescription"]'
+        ).value;
+        let editedCardCpy = {
+            ...editedCard,
+            description: newDescription.trim(),
+        };
+        replaceCard(editedCardCpy);
+
         setCardDescriptionEdit(false);
     };
 
     const modifyCardColumn = (event) => {
         event.stopPropagation();
         event.preventDefault();
-        props.changeCardColumn(cardId, props.columnId, cardColumnId);
+
+        const newColumnId = document.querySelector('[name="cardColumn"]').value;
+        let columnsCpy = [...columns];
+        columnsCpy = deleteCard(columnsCpy, editedCard.columnId, editedCard.id);
+        columnsCpy = addNewCard(columnsCpy, newColumnId, {...editedCard});
+        setColumns(columnsCpy);
+        console.log('coloana schimbat');
     };
 
     useEffect(() => {
@@ -72,7 +143,7 @@ const CardEditModal = (props) => {
             >
                 <i className="fas fa-times close-modalEdit"></i>
             </button>
-            <h2> Modifică articolul </h2>
+            <h2> Detalii articol </h2>
             <div className="cardField">
                 <h4 className="cardFieldName">
                     Nume
@@ -96,16 +167,12 @@ const CardEditModal = (props) => {
                     <form onSubmit={modifyCardName}>
                         <input
                             name="cardName"
-                            value={cardName}
-                            onChange={(event) => {
-                                event.preventDefault();
-                                event.stopPropagation();
-                                setCardName(event.target.value);
-                            }}
+                            defaultValue={editedCard.name}
+                            autoComplete="off"
                         />
                     </form>
                 ) : (
-                    <p>{cardName}</p>
+                    <p>{editedCard.name}</p>
                 )}
             </div>
             <div className="cardField">
@@ -131,16 +198,12 @@ const CardEditModal = (props) => {
                     <form onSubmit={modifyCardDescription}>
                         <textarea
                             name="cardDescription"
-                            value={cardDescription}
-                            onChange={(event) => {
-                                event.preventDefault();
-                                event.stopPropagation();
-                                setCardDescription(event.target.value);
-                            }}
+                            defaultValue={editedCard.description}
+                            autoComplete="off"
                         />
                     </form>
                 ) : (
-                    <p>{cardDescription}</p>
+                    <p>{editedCard.description}</p>
                 )}
             </div>
             <div className="cardField">
@@ -170,19 +233,14 @@ const CardEditModal = (props) => {
                 </h4>
                 <form onSubmit={modifyCardColumn}>
                     <select
-                        value={cardColumnId}
-                        onChange={(event) => {
-                            event.preventDefault();
-                            event.stopPropagation();
-                            setCardColumnId(event.target.value);
-                        }}
+                        name="cardColumn"
+                        defaultValue={editedCard.columnId}
                     >
                         {columns.map((column, index) => {
                             return (
                                 <option value={column.id} key={column.id}>
-                                {`${index + 1}. ${
-                                    column.name
-                                }`}</option>
+                                    {`${index + 1}. ${column.name}`}
+                                </option>
                             );
                         })}
                     </select>

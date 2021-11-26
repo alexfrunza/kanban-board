@@ -24,3 +24,8 @@ export const currentColumnState = selector({
         return columns[numberOfCurrentColumn];
     },
 });
+
+export const editedCardState = atom({
+    key: "editedCardState",
+    default: {},
+});

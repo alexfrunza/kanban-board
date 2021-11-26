@@ -1,6 +1,6 @@
 div.card {
-    color: var(--dark-blue-1);
-    background-color: var(--blue-3);
+    color: var(--black);
+    background-color: var(--grey);
     margin-bottom: 1rem;
     border-radius: 2px;
     padding: 1rem;

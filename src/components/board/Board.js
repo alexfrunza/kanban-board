@@ -26,6 +26,7 @@ const mockBoard = {
             id: "12941234",
             cards: [
                 {
+                    columnId: "12941234",
                     name: "My first card",
                     description: "",
                     id: "8383",
@@ -39,6 +40,7 @@ const mockBoard = {
                     assignedTo: ["2341"],
                 },
                 {
+                    columnId: "12941234",
                     name: "My second card",
                     description: "bla bla",
                     id: "801f383",
@@ -58,6 +60,7 @@ const mockBoard = {
             id: "12341234",
             cards: [
                 {
+                    columnId: "12341234",
                     name: "My third card",
                     description: "bla bla",
                     id: "8383asear",
@@ -71,6 +74,7 @@ const mockBoard = {
                     assignedTo: ["2341"],
                 },
                 {
+                    columnId: "12341234",
                     name: "My forth card",
                     description: "bla bla",
                     id: "1511",
