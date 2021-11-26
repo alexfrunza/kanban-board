@@ -29,6 +29,7 @@ const Column = (props) => {
 
     const resetColumn = () => {
         setColumnNameEdit(false);
+        setAddCardEdit(false);
     };
 
     const changeColumnLeft = () => {
@@ -62,6 +63,21 @@ const Column = (props) => {
         setColumnNameEdit(false);
     };
 
+    const addCard = (event) => {
+        // TODO: query to database to fetch an id
+        event.preventDefault();
+        let newCardName = event.target.newCardName.value.trim();
+        if(newCardName) {
+            let columnsCpy = [...columns];
+            columnsCpy[number] = {
+                ...data,
+                cards: [...data.cards, { name: newCardName, id: 1234 }],
+            };
+            setColumns(columnsCpy);
+            setAddCardEdit(false);
+        }
+    };
+
     const columnNameTag = () => {
         if (!columnNameEdit) {
             return (
@@ -73,12 +89,16 @@ const Column = (props) => {
                     >
                         <i className="fas fa-edit"></i>
                     </button>
-                    <button
-                        className="addCard"
-                        onClick={() => setAddCardEdit(true)}
-                    >
-                        <i className="fas fa-plus"></i>
-                    </button>
+                    {addCardEdit ? (
+                        ""
+                    ) : (
+                        <button
+                            className="addCard"
+                            onClick={() => setAddCardEdit(true)}
+                        >
+                            <i className="fas fa-plus"></i>
+                        </button>
+                    )}
                 </div>
             );
         } else {
@@ -96,6 +116,35 @@ const Column = (props) => {
                 </form>
             );
         }
+    };
+
+    const addCardForm = () => {
+        if (addCardEdit) {
+            return (
+                <form className="addCard" onSubmit={addCard}>
+                    <input
+                        type="text"
+                        name="newCardName"
+                        defaultValue={""}
+                        autoComplete="off"
+                    />
+                    <button
+                        className="cancel"
+                        onClick={(event) => {
+                            event.preventDefault();
+                            event.stopPropagation();
+                            setAddCardEdit(false);
+                        }}
+                    >
+                        Anulează
+                    </button>
+                    <button className="submitCard" type="submit">
+                        Adauga articol
+                    </button>
+                </form>
+            );
+        }
+        return "";
     };
 
     const showColumn = () => {
@@ -117,9 +166,12 @@ const Column = (props) => {
                             <i className="fas fa-chevron-right"></i>
                         </button>
                     </div>
-                    {data.cards.map((card) => {
-                        return <Card key={card.id} value={card} />;
-                    })}
+                    {addCardForm()}
+                    <div className="cardsWraper">
+                        {data.cards.map((card) => {
+                            return <Card key={card.id} value={card} />;
+                        })}
+                    </div>
                 </div>
             );
         }

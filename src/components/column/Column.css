@@ -3,11 +3,12 @@ section.columnsSection > div {
 }
 
 section.columnsSection .column {
+    display: flex;
+    flex-flow: column;
     border-radius: 2px;
     margin-bottom: 1rem;
     padding: 1rem;
     background-color: var(--white);
-    display: block;
     height: 100%;
 }
 
@@ -41,7 +42,8 @@ section.columnsSection .columnName i {
     color: var(--black);
 }
 
-section.columnsSection .columnName input[name="columnName"] {
+section.columnsSection .columnName input[name="columnName"],
+section.columnsSection .addCard input[name="newCardName"] {
     padding: 3px;
     font-size: 1rem;
     border: 2px solid transparent;
@@ -50,11 +52,53 @@ section.columnsSection .columnName input[name="columnName"] {
     background-color: var(--light-grey);
 }
 
-section.columnsSection .columnName input[name="columnName"]:focus {
+section.columnsSection .columnName input[name="columnName"]:focus,
+section.columnsSection .addCard input[name="newCardName"]:focus {
     border: 2px solid var(--orange);
     outline: none;
 }
 
+section.columnsSection .addCard input[name="newCardName"] {
+    display: block;
+    width: 100%;
+}
+
+section.columnsSection .column > .addCard {
+    margin-bottom: 1rem;
+}
+
+section.columnsSection .addCard button {
+    margin-top: 0.5rem;
+    padding: 0.5rem;
+}
+
+section.columnsSection .addCard button.cancel {
+    border-radius: 5px;
+    background-color: var(--red);
+    color: var(--white);
+}
+
+section.columnsSection .addCard button.submitCard {
+    margin-left: 1rem;
+    border-radius: 5px;
+    background-color: var(--green);
+    color: var(--white);
+}
+
 section.columnsSection .editColumnName {
     margin-left: 0.5rem;
+}
+
+section.columnsSection .cardsWraper {
+    overflow: scroll;
+}
+
+/* Hide cards scrollbar */
+section.columnsSection .cardsWraper::-webkit-scrollbar {
+    display: none;
+}
+
+section.columnsSection .cardsWraper {
+    -ms-overflow-style: none;
+    scrollbar-width: none;
 }
