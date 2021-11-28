@@ -1,0 +1,40 @@
+main.frontpage {
+    color: var(--white);
+    background-color: var(--black);
+    display: flex;
+    flex-flow: column;
+    padding-bottom: 5rem;
+    justify-content: center;
+    align-items: center;
+    height: 100%;
+}
+
+main.frontpage a {
+    text-decoration: none;
+    margin-top: 1rem;
+    color: var(--white);
+}
+
+main.frontpage a:not(:last-child) {
+    width: 10rem;
+    text-align: center;
+    background-color: var(--orange);
+    color: var(--black);
+    border-radius: 5px;
+    padding: 1rem;
+}
+
+main.frontpage a:not(:last-child):hover {
+    background-color: var(--red);
+    animation: changeColor 0.5s ease-in-out;
+}
+
+@keyframes changeColor {
+    from {
+        background-color: var(--orange);
+    }
+    to {
+        background-color: var(--red);
+    }
+}
+    

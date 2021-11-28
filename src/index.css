@@ -18,6 +18,7 @@
 
 html,
 body {
+    height: 100%;
     overflow: hidden;
 }
 
@@ -33,4 +34,10 @@ button {
     -webkit-font-smoothing: inherit;
     -moz-osx-font-smoothing: inherit;
     -webkit-apperance: none;
+}
+
+div#root {
+    display: flex;
+    flex-flow: column;
+    height: 100%;
 }

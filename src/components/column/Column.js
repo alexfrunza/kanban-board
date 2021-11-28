@@ -67,11 +67,11 @@ const Column = (props) => {
         // TODO: query to database to fetch an id
         event.preventDefault();
         let newCardName = event.target.newCardName.value.trim();
-        if(newCardName) {
+        if (newCardName) {
             let columnsCpy = [...columns];
             columnsCpy[number] = {
                 ...data,
-                cards: [...data.cards, { name: newCardName, id: 1234 }],
+                cards: [{name: newCardName, id: 1034}, ...data.cards],
             };
             setColumns(columnsCpy);
             setAddCardEdit(false);
@@ -127,7 +127,11 @@ const Column = (props) => {
                         name="newCardName"
                         defaultValue={""}
                         autoComplete="off"
+                        placeholder="Adauga un nume pentru articol..."
                     />
+                    <button className="submitCard" type="submit">
+                        Adauga articol
+                    </button>
                     <button
                         className="cancel"
                         onClick={(event) => {
@@ -137,9 +141,6 @@ const Column = (props) => {
                         }}
                     >
                         Anulează
-                    </button>
-                    <button className="submitCard" type="submit">
-                        Adauga articol
                     </button>
                 </form>
             );

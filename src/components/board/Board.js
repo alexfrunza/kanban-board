@@ -8,18 +8,11 @@ import "components/board/Board.css";
 const mockBoard = {
     name: "First Board",
     id: "123412348",
-    users: [
-        {
-            username: "alexandru",
-            id: "1689623",
-            imgUrl: "https://avatarfiles.alphacoders.com/233/233054.jpg",
-        },
-        {
-            username: "alexfrunza",
-            id: "2341",
-            imgUrl: "https://avatarfiles.alphacoders.com/233/233054.jpg",
-        },
-    ],
+    user: {
+        username: "alexfrunza",
+        id: "2341",
+        imgUrl: "https://avatarfiles.alphacoders.com/233/233054.jpg",
+    },
     columns: [
         {
             name: "My first column",

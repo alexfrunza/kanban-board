@@ -1,0 +1,39 @@
+main.login,
+main.register {
+    color: var(--white);
+    height: 100%;
+    display: flex;
+    flex-flow: column;
+    justify-content: center;
+    align-items: center;
+    padding-bottom: 5rem;
+    background-color: var(--black);
+}
+
+main form {
+    width: 80%;
+    text-align: center;
+}
+
+main input {
+    background-color: var(--light-grey);
+    border: 2px solid transparent;
+    border-radius: 2px;
+    padding: 0.5rem;
+    margin-top: 2rem;
+    width: 100%;
+    display: block;
+}
+
+main input:focus {
+    border: 2px solid var(--orange);
+    outline: none;
+}
+
+main form button {
+    border-radius: 5px;
+    padding: 0.5rem;
+    margin-top: 2rem;
+    background-color: var(--orange);
+    color: var(--black);
+}
