@@ -1,12 +1,12 @@
 :root {
-    --red: #E40C2B;
-    --black: #1D1D2D;
-    --white: #F7F4E9;
-    --blue: #3CBCC3;
-    --orange: #EBA63F;
+    --red: #e40c2b;
+    --black: #1d1d2d;
+    --white: #f7f4e9;
+    --blue: #3cbcc3;
+    --orange: #eba63f;
     --green: #438945;
-    --grey: #90A0AB;
-    --light-grey: #B8B5AD;
+    --grey: #90a0ab;
+    --light-grey: #b8b5ad;
 }
 
 * {
@@ -36,8 +36,48 @@ button {
     -webkit-apperance: none;
 }
 
+ul {
+    list-style-type: none;
+}
+
 div#root {
     display: flex;
     flex-flow: column;
     height: 100%;
+}
+
+.lds-dual-ring {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    display: inline-block;
+    width: 80px;
+    height: 80px;
+}
+
+.lds-dual-ring:after {
+    content: " ";
+    display: block;
+    width: 64px;
+    height: 64px;
+    margin: 2px;
+    border-radius: 50%;
+    border: 6px solid var(--white);
+    border-color: var(--white) transparent var(--white) transparent;
+    animation: lds-dual-ring 1.2s linear infinite;
+}
+
+.black-loader {
+    border: 6px solid var(--black);
+    border-color: var(--black) transparent var(--black) transparent;
+}
+
+@keyframes lds-dual-ring {
+    0% {
+        transform: rotate(0deg);
+    }
+    100% {
+        transform: rotate(360deg);
+    }
 }

@@ -1,0 +1,73 @@
+main.boards {
+    display: flex;
+    flex-flow: column;
+    height: 100%;
+    background-color: var(--black);
+    color: var(--white);
+    padding: 3rem 1rem 1rem 1rem;
+}
+
+main.boards > div {
+    display: flex;
+    flex-flow: column;
+    height: 100%;
+}
+
+main.boards ul {
+    height: 100%;
+}
+
+main.boards ul li {
+    display: flex;
+    justify-content: space-between;
+    padding: 1rem;
+    border-radius: 5px;
+    color: var(--black);
+    font-size: 1rem;
+    margin-top: 1rem;
+    background-color: var(--light-grey);
+}
+
+main.boards ul li p {
+    display: inline-block;
+}
+
+main.boards ul li button {
+    color: var(--black);
+    margin-left: 0.5rem;
+}
+
+main.boards .addNewBoard {
+    margin-top: 1rem;
+    margin-bottom: 2rem;
+}
+
+main.boards .addNewBoard button {
+    padding: 1rem;
+    border-radius: 5px;
+    text-align: center;
+    background-color: var(--orange);
+}
+
+main.boards .addNewBoard input {
+    display: block;
+    width: 100%;
+    padding: 0.5rem;
+    background-color: var(--light-grey);
+    border: 2px solid transparent;
+    border-radius: 2px;
+}
+
+main.boards .addNewBoard input:focus {
+    outline: none;
+    border: 2px solid var(--orange);
+}
+
+main.boards .addNewBoard form button {
+    margin-left: 1rem;
+    margin-top: 1rem;
+}
+
+main.boards .addNewBoard form button[type="submit"] {
+    margin-left: 0;
+}

@@ -10,12 +10,14 @@ main.register {
     background-color: var(--black);
 }
 
-main form {
+main.login form,
+main.register form{
     width: 80%;
     text-align: center;
 }
 
-main input {
+main.login input,
+main.register input {
     background-color: var(--light-grey);
     border: 2px solid transparent;
     border-radius: 2px;
@@ -25,12 +27,14 @@ main input {
     display: block;
 }
 
-main input:focus {
+main.login input:focus,
+main.register input:focus {
     border: 2px solid var(--orange);
     outline: none;
 }
 
-main form button {
+main.login form button,
+main.register form button {
     border-radius: 5px;
     padding: 0.5rem;
     margin-top: 2rem;

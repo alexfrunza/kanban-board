@@ -9,13 +9,25 @@ main.frontpage {
     height: 100%;
 }
 
+main.frontpage > div {
+    display: flex;
+    flex-flow: column;
+    justify-content: center;
+    align-items: center;
+}
+
+main.frontpage > div > * {
+    display: block;
+}
+
 main.frontpage a {
     text-decoration: none;
     margin-top: 1rem;
     color: var(--white);
 }
 
-main.frontpage a:not(:last-child) {
+main.frontpage a:not(:last-child),
+main.frontpage div.logged a {
     width: 10rem;
     text-align: center;
     background-color: var(--orange);
@@ -24,7 +36,8 @@ main.frontpage a:not(:last-child) {
     padding: 1rem;
 }
 
-main.frontpage a:not(:last-child):hover {
+main.frontpage a:not(:last-child):hover,
+main.frontpage div.logged a:hover {
     background-color: var(--red);
     animation: changeColor 0.5s ease-in-out;
 }

@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-import { useRecoilValue, useSetRecoilState, useRecoilState } from "recoil";
+import { useSetRecoilState, useRecoilState } from "recoil";
 import {
     cardEditModalState,
     columnsState,

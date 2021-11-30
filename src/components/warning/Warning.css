@@ -1,0 +1,25 @@
+div.warning {
+    color: var(--black);
+    position: absolute;
+    padding: 1.5rem;
+    text-align: center;
+    width: 80%;
+    top: 15%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    background-color: var(--red);
+    border-radius: 5px;
+    animation: warningAppear 0.5s ease-out;
+}
+
+@keyframes warningAppear {
+    from {top: 17%;}
+    to {top:15%;}
+}
+
+div.warning button {
+    color: var(--black);
+    position: absolute;
+    top: 0.5rem;
+    left: 0.5rem;
+}
