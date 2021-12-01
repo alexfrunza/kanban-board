@@ -6,13 +6,14 @@ import {
     numberOfCurrentColumnState,
     columnsState,
 } from "store/board/boardState.js";
-import { warningMessageState } from "store/app/appState.js";
+import { warningMessageState, modalConfirmState } from "store/app/appState.js";
 import { useParams } from "react-router-dom";
 import { inputCleanUp } from "utils.js";
 import "components/column/Column.css";
 
 const Column = (props) => {
     const setWarningMessage = useSetRecoilState(warningMessageState);
+    const setModalConfirm = useSetRecoilState(modalConfirmState);
     const token = localStorage.getItem("token");
     const [number, setNumber] = useRecoilState(numberOfCurrentColumnState);
     const [columns, setColumns] = useRecoilState(columnsState);
@@ -60,8 +61,7 @@ const Column = (props) => {
         resetColumn();
     };
 
-    const deleteColumn = async (event) => {
-        event.preventDefault();
+    const deleteColumn = async () => {
         let response = await fetch(
             `http://127.0.0.1:5003/boards/${params.boardId}/columns/${data.id}`,
             {
@@ -140,7 +140,15 @@ const Column = (props) => {
                     >
                         <i className="fas fa-edit"></i>
                     </button>
-                    <button onClick={deleteColumn}>
+                    <button
+                        onClick={() =>
+                            setModalConfirm({
+                                show: true,
+                                action: deleteColumn,
+                                text: "Esti sigur ca doresti sa stergi aceasta coloana?",
+                            })
+                        }
+                    >
                         <i className="fas fa-trash"></i>
                     </button>
                     {addCardEdit ? (

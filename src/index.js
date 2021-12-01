@@ -10,6 +10,7 @@ import Register from "components/account/Register";
 import Login from "components/account/Login";
 import Warning from "components/warning/Warning";
 import Boards from "components/boards/Boards";
+import ModalConfirm from "components/modals/ModalConfirm";
 import "index.css";
 
 const App = () => {
@@ -18,6 +19,7 @@ const App = () => {
             <BrowserRouter>
                 <Navbar />
                 <Warning />
+                <ModalConfirm />
                 <Routes>
                     <Route path="/" element={<Frontpage />} />
                     <Route path="/about" element={<About />} />

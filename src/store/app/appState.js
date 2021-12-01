@@ -14,3 +14,8 @@ export const currentUserState = atom({
     key: "currentUserState",
     default: {},
 });
+
+export const modalConfirmState = atom({
+    key: "modalConfirmState",
+    default: {},
+});

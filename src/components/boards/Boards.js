@@ -2,11 +2,12 @@ import { React, useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { singout } from "settings.js";
 import { useSetRecoilState } from "recoil";
-import { warningMessageState } from "store/app/appState.js";
+import { warningMessageState, modalConfirmState } from "store/app/appState.js";
 import "components/boards/Boards.css";
 
 const Boards = () => {
     const setWarningMessage = useSetRecoilState(warningMessageState);
+    const setModalConfirm = useSetRecoilState(modalConfirmState);
     const token = localStorage.getItem("token");
     const [loading, setLoading] = useState(true);
     const navigate = useNavigate();
@@ -51,8 +52,7 @@ const Boards = () => {
         }
     };
 
-    const deleteBoard = async (event, boardId) => {
-        event.preventDefault();
+    const deleteBoard = async (boardId) => {
         let response = await fetch(`http://127.0.0.1:5003/boards/${boardId}`, {
             method: "DELETE",
             headers: new Headers({
@@ -109,9 +109,15 @@ const Boards = () => {
                                         <p> {board.name}</p>
                                         <div className="buttons">
                                             <button
-                                                onClick={(event) =>
-                                                    deleteBoard(event, board.id)
-                                                }
+                                                onClick={(event) => {
+                                                    event.preventDefault();
+                                                    setModalConfirm({
+                                                        show: true,
+                                                        action: deleteBoard,
+                                                        text: "Esti sigur ca doresti sa stergi aceasta tabla?",
+                                                        actionArgs: [board.id],
+                                                    });
+                                                }}
                                             >
                                                 <i className="fas fa-trash"></i>
                                             </button>
