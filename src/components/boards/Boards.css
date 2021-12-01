@@ -1,13 +1,13 @@
 main.boards {
     display: flex;
     flex-flow: column;
-    height: 100%;
+    height: calc(100vh - 3.5rem);
     background-color: var(--black);
     color: var(--white);
     padding: 3rem 1rem 1rem 1rem;
 }
 
-main.boards > div {
+main.boards > div:not(.lds-dual-ring) {
     display: flex;
     flex-flow: column;
     height: 100%;
@@ -15,6 +15,7 @@ main.boards > div {
 
 main.boards ul {
     height: 100%;
+    overflow: auto;
 }
 
 main.boards ul li {

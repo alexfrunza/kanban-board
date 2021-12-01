@@ -10,8 +10,6 @@ main.board {
 
 main.board .boardName {
     color: var(--white);
-    display: flex;
-    justify-content: center;
     align-items: center;
     margin: 2rem auto;
     text-align: center;
@@ -27,9 +25,13 @@ main.board div.boardName h2 {
     word-break: break-all;
 }
 
-main.board .boardName .editBoardTitle {
-    color: inherit;
+main.board .boardName > button:not(.editBoardTitle) {
     margin-left: 1rem;
+}
+
+main.board .boardName > button {
+    margin-top: 1rem;
+    color: inherit;
     font-size: 1.5rem;
 }
 
@@ -44,10 +46,11 @@ main.board input[name="search"] {
 }
 
 main.board input[name="boardName"] {
-    width: 75%;
+    width: 77%;
 }
 
 main.board input[name="boardName"]:focus,
+main.board .addColumnForm input:focus,
 main.board input[name="search"]:focus {
     border: 2px solid var(--blue);
     outline: none;
@@ -71,8 +74,30 @@ main.board .searchInBoard .fa-search {
     transform: translateY(-50%);
 }
 
+main.board .addColumnForm input {
+    font-size: 1rem;
+    padding: 0.5rem;
+    border-radius: 2px;
+    border: 2px solid transparent;
+    color: var(--black);
+    background-color: var(--white);
+    width: 100%;
+    display: block;
+}
+
+main.board .addColumnForm button {
+    margin-top: 1rem;
+    background-color: var(--blue);
+    border-radius: 5px;
+    padding: 1rem;
+    margin-left: 1rem;
+}
+
+main.board .addColumnForm button:first-of-type {
+    margin-left: 0;
+}
+
 main.board .columnsSection {
-    margin-top: 1.5rem;
     padding-bottom: 3rem;
     height: 100%;
     overflow: auto;

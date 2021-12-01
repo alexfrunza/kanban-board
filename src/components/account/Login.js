@@ -68,8 +68,8 @@ const Login = () => {
                 <i className="far fa-sticky-note"></i> Kanban Boards
             </h2>
             <form className="loginForm" onSubmit={submitLogin}>
-                <input name="emailNickname" placeholder="Email sau prorecla" />
-                <input name="password" type="password" placeholder="Parola" />
+                <input name="emailNickname" placeholder="Email sau prorecla" autoComplete='off'/>
+                <input name="password" type="password" placeholder="Parola" autoComplete='off'/>
                 <button type="submit"> Autentificare </button>
             </form>
         </main>

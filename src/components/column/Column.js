@@ -1,20 +1,30 @@
 import React, { useState, useEffect } from "react";
-import { useRecoilState, useRecoilValue } from "recoil";
+import { useRecoilState, useRecoilValue, useSetRecoilState } from "recoil";
 import Card from "components/card/Card";
 import {
     currentColumnState,
     numberOfCurrentColumnState,
     columnsState,
 } from "store/board/boardState.js";
+import { warningMessageState } from "store/app/appState.js";
+import { useParams } from "react-router-dom";
+import { inputCleanUp } from "utils.js";
 import "components/column/Column.css";
 
 const Column = (props) => {
+    const setWarningMessage = useSetRecoilState(warningMessageState);
+    const token = localStorage.getItem("token");
     const [number, setNumber] = useRecoilState(numberOfCurrentColumnState);
     const [columns, setColumns] = useRecoilState(columnsState);
     const data = useRecoilValue(currentColumnState);
+    const params = useParams();
 
     const [columnNameEdit, setColumnNameEdit] = useState(false);
     const [addCardEdit, setAddCardEdit] = useState(false);
+
+    useEffect(() => {
+        setNumber(0);
+    }, []);
 
     useEffect(() => {
         if (columnNameEdit) {
@@ -50,17 +60,58 @@ const Column = (props) => {
         resetColumn();
     };
 
-    const submitName = (event) => {
+    const deleteColumn = async (event) => {
+        event.preventDefault();
+        let response = await fetch(
+            `http://127.0.0.1:5003/boards/${params.boardId}/columns/${data.id}`,
+            {
+                method: "DELETE",
+                headers: {
+                    Authorization: `Bearer ${token}`,
+                },
+            }
+        );
+        if (response.status === 200) {
+            setColumns(columns.filter(({ id }) => id !== data.id));
+            if (number === 0) {
+                resetColumn();
+            } else {
+                changeColumnLeft();
+            }
+        }
+    };
+
+    const submitName = async (event) => {
         event.preventDefault();
         const name = event.target.columnName.value.trim();
-        if (name) {
-            let columnsCpy = [...columns];
-            columnsCpy[number] = { ...data, name };
-            setColumns(columnsCpy);
-            // TODO: Change column name to database
-        }
+        setWarningMessage("");
 
-        setColumnNameEdit(false);
+        if (name) {
+            let column = {
+                name,
+            };
+            let response = await fetch(
+                `http://127.0.0.1:5003/boards/${params.boardId}/columns/${data.id}`,
+                {
+                    method: "PUT",
+                    headers: {
+                        Authorization: `Bearer ${token}`,
+                        "Content-Type": "application/json",
+                    },
+                    body: JSON.stringify(column),
+                }
+            );
+            if (response.status === 200) {
+                let columnsCpy = [...columns];
+                columnsCpy[number] = { ...data, name };
+                setColumnNameEdit(false);
+                setColumns(columnsCpy);
+            } else {
+                let result = await response.json();
+                inputCleanUp("columnName");
+                setWarningMessage(result.details);
+            }
+        } else setColumnNameEdit(false);
     };
 
     const addCard = (event) => {
@@ -71,7 +122,7 @@ const Column = (props) => {
             let columnsCpy = [...columns];
             columnsCpy[number] = {
                 ...data,
-                cards: [{name: newCardName, id: 1034}, ...data.cards],
+                cards: [{ name: newCardName, id: 1034 }, ...data.cards],
             };
             setColumns(columnsCpy);
             setAddCardEdit(false);
@@ -88,6 +139,9 @@ const Column = (props) => {
                         onClick={() => setColumnNameEdit(true)}
                     >
                         <i className="fas fa-edit"></i>
+                    </button>
+                    <button onClick={deleteColumn}>
+                        <i className="fas fa-trash"></i>
                     </button>
                     {addCardEdit ? (
                         ""
@@ -107,6 +161,7 @@ const Column = (props) => {
                     <input
                         type="text"
                         name="columnName"
+                        placeholder="Nume pentru coloană"
                         defaultValue={data.name}
                         autoComplete="off"
                     />
@@ -127,7 +182,7 @@ const Column = (props) => {
                         name="newCardName"
                         defaultValue={""}
                         autoComplete="off"
-                        placeholder="Adauga un nume pentru articol..."
+                        placeholder="Adaugă  un nume pentru articol..."
                     />
                     <button className="submitCard" type="submit">
                         Adauga articol
@@ -152,20 +207,36 @@ const Column = (props) => {
         if (data) {
             return (
                 <div id={data.id} className="column">
-                    <div className="columnHeader">
-                        <button
-                            className="changeColumn"
-                            onClick={changeColumnLeft}
-                        >
-                            <i className="fas fa-chevron-left"></i>
-                        </button>
+                    <div
+                        className="columnHeader"
+                        style={{
+                            justifyContent:
+                                columns.length === 1
+                                    ? "center"
+                                    : "space-between",
+                        }}
+                    >
+                        {columns.length > 1 ? (
+                            <button
+                                className="changeColumn"
+                                onClick={changeColumnLeft}
+                            >
+                                <i className="fas fa-chevron-left"></i>
+                            </button>
+                        ) : (
+                            ""
+                        )}
                         {columnNameTag()}
-                        <button
-                            className="changeColumn"
-                            onClick={changeColumnRight}
-                        >
-                            <i className="fas fa-chevron-right"></i>
-                        </button>
+                        {columns.length > 1 ? (
+                            <button
+                                className="changeColumn"
+                                onClick={changeColumnRight}
+                            >
+                                <i className="fas fa-chevron-right"></i>
+                            </button>
+                        ) : (
+                            ""
+                        )}
                     </div>
                     {addCardForm()}
                     <div className="cardsWraper">
@@ -176,7 +247,12 @@ const Column = (props) => {
                 </div>
             );
         }
-        return "";
+        return (
+            <p className="tips">
+                {" "}
+                Sfat: Adauga o coloana utilizand simbolul +{" "}
+            </p>
+        );
     };
 
     return <div>{showColumn()}</div>;

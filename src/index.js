@@ -25,9 +25,6 @@ const App = () => {
                     <Route path="/login" element={<Login />} />
                     <Route path="/boards" element={<Boards />} />
                     <Route path="/boards/:boardId" element={<Board />} />
-                    {/*<div>
-                        <Board />
-                    </div>*/}
                 </Routes>
             </BrowserRouter>
         </RecoilRoot>

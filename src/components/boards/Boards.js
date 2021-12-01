@@ -81,8 +81,10 @@ const Boards = () => {
         })
             .then((res) => [res.json(), res.status])
             .then(([result, status]) => {
-                if (status === 401) singout();
-                else return result;
+                if (status === 401) {
+                    singout();
+                    navigate("/");
+                } else return result;
             })
             .then((res) => {
                 if (res) {

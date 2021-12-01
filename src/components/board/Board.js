@@ -1,115 +1,126 @@
 import React, { useState, useEffect } from "react";
-import { useSetRecoilState, useRecoilValue } from "recoil";
+import { useRecoilState, useRecoilValue } from "recoil";
+import { useParams, useNavigate } from "react-router-dom";
 import Column from "components/column/Column";
 import CardEditModal from "components/modals/CardEditModal";
 import { cardEditModalState, columnsState } from "store/board/boardState.js";
+import { useSetRecoilState } from "recoil";
+import { warningMessageState } from "store/app/appState.js";
+import { singout } from "settings.js";
+import { inputCleanUp } from "utils.js";
 import "components/board/Board.css";
 
-const mockBoard = {
-    name: "First Board",
-    id: "123412348",
-    user: {
-        username: "alexfrunza",
-        id: "2341",
-        imgUrl: "https://avatarfiles.alphacoders.com/233/233054.jpg",
-    },
-    columns: [
-        {
-            name: "My first column",
-            id: "12941234",
-            cards: [
-                {
-                    columnId: "12941234",
-                    name: "My first card",
-                    description: "",
-                    id: "8383",
-                    labels: [
-                        {
-                            name: "bug",
-                            id: "12349",
-                            color: "red",
-                        },
-                    ],
-                    assignedTo: ["2341"],
-                },
-                {
-                    columnId: "12941234",
-                    name: "My second card",
-                    description: "bla bla",
-                    id: "801f383",
-                    labels: [
-                        {
-                            name: "bug",
-                            id: "12349",
-                            color: "red",
-                        },
-                    ],
-                    assignedTo: ["2341"],
-                },
-            ],
-        },
-        {
-            name: "My second column it's amazing",
-            id: "12341234",
-            cards: [
-                {
-                    columnId: "12341234",
-                    name: "My third card",
-                    description: "bla bla",
-                    id: "8383asear",
-                    labels: [
-                        {
-                            name: "bug",
-                            id: "12349",
-                            color: "red",
-                        },
-                    ],
-                    assignedTo: ["2341"],
-                },
-                {
-                    columnId: "12341234",
-                    name: "My forth card",
-                    description: "bla bla",
-                    id: "1511",
-                    labels: [
-                        {
-                            name: "bug",
-                            id: "12349",
-                            color: "red",
-                        },
-                    ],
-                    assignedTo: ["2341"],
-                },
-            ],
-        },
-    ],
-};
-
 const Board = () => {
+    const token = localStorage.getItem("token");
+    const navigate = useNavigate();
+
+    const [loading, setLoading] = useState(true);
     const [boardName, setBoardName] = useState("My first board");
     const [boardNameEdit, setBoardNameEdit] = useState(false);
     const [searchString, setSearchString] = useState("");
+    const [search, setSearch] = useState(false);
+    const [addColumnForm, setAddColumnForm] = useState(false);
+    const setWarningMessage = useSetRecoilState(warningMessageState);
+    let params = useParams();
 
-    const setColumns = useSetRecoilState(columnsState);
+    const [columns, setColumns] = useRecoilState(columnsState);
     const cardEdit = useRecoilValue(cardEditModalState);
+
+    const addColumn = async (event) => {
+        event.preventDefault();
+        setWarningMessage("");
+
+        const name = event.target.columnName.value.trim();
+        if (!name) {
+            setTimeout(() =>
+                setWarningMessage("Trebuie sa adaugi un nume.", 0)
+            );
+            return;
+        }
+        let column = {
+            name,
+        };
+        let response = await fetch(
+            `http://127.0.0.1:5003/boards/${params.boardId}/columns`,
+            {
+                method: "POST",
+                headers: {
+                    Authorization: `Bearer ${token}`,
+                    "Content-Type": "application/json",
+                },
+                body: JSON.stringify(column),
+            }
+        );
+        let result = await response.json();
+        if (response.status === 201) {
+            let columnId = result.column_id;
+            setColumns(
+                columns.concat({
+                    id: columnId,
+                    name,
+                    cards: [],
+                })
+            );
+            setAddColumnForm(false);
+        } else {
+            inputCleanUp("columnName");
+            setWarningMessage(result.details);
+        }
+    };
 
     // Fetch the data from API
     useEffect(() => {
-        // TODO: fetch the data from API
-
-        setBoardName(mockBoard.name);
-        setColumns(mockBoard.columns);
+        fetch(`http://127.0.0.1:5003/boards/${params.boardId}`, {
+            headers: {
+                Authorization: `Bearer ${token}`,
+            },
+        })
+            .then((res) => [res.json(), res.status])
+            .then(([result, status]) => {
+                if (status === 401) {
+                    singout();
+                    navigate("/");
+                } else if (status !== 200) navigate("/");
+                else return result;
+            })
+            .then((res) => {
+                if (res) {
+                    setLoading(false);
+                    setBoardName(res.name);
+                    setColumns(res.columns);
+                }
+            });
     }, []);
 
-    const submitBoardName = (event) => {
+    const submitBoardName = async (event) => {
         event.preventDefault();
         const name = event.target.boardName.value.trim();
-        if (name) {
-            setBoardName(name);
-            // TODO: Change board name to database
-        }
+        setWarningMessage("");
 
-        setBoardNameEdit(false);
+        if (name) {
+            let board = {
+                name,
+            };
+            let response = await fetch(
+                `http://127.0.0.1:5003/boards/${params.boardId}`,
+                {
+                    method: "PUT",
+                    headers: {
+                        Authorization: `Bearer ${token}`,
+                        "Content-Type": "application/json",
+                    },
+                    body: JSON.stringify(board),
+                }
+            );
+            if (response.status === 200) {
+                setBoardName(name);
+                setBoardNameEdit(false);
+            } else {
+                let result = await response.json();
+                inputCleanUp("boardName");
+                setWarningMessage(result.details);
+            }
+        } else setBoardNameEdit(false);
     };
 
     useEffect(() => {
@@ -122,6 +133,26 @@ const Board = () => {
         }
     }, [boardNameEdit]);
 
+    useEffect(() => {
+        if (search) {
+            const input = document.querySelector("[name='search']");
+            if (input) {
+                input.focus();
+                input.select();
+            }
+        }
+    }, [search]);
+
+    useEffect(() => {
+        if (addColumnForm) {
+            const input = document.querySelector("[name='columnName']");
+            if (input) {
+                input.focus();
+                input.select();
+            }
+        }
+    }, [addColumnForm]);
+
     const boardNameTag = () => {
         if (!boardNameEdit) {
             return (
@@ -133,6 +164,34 @@ const Board = () => {
                     >
                         <i className="fas fa-edit"></i>
                     </button>
+                    {columns.length !== 0 ? (
+                        <button
+                            style={{
+                                color: search ? "var(--red)" : "var(--white)",
+                            }}
+                            onClick={() => {
+                                setSearch(!search);
+                                setAddColumnForm(false);
+                            }}
+                        >
+                            <i className="fas fa-search"></i>
+                        </button>
+                    ) : (
+                        ""
+                    )}
+                    <button
+                        style={{
+                            color: addColumnForm
+                                ? "var(--green)"
+                                : "var(--white)",
+                        }}
+                        onClick={() => {
+                            setAddColumnForm(!addColumnForm);
+                            setSearch(false);
+                        }}
+                    >
+                        <i className="fas fa-plus"></i>
+                    </button>
                 </div>
             );
         } else {
@@ -141,10 +200,11 @@ const Board = () => {
                     <input
                         type="text"
                         name="boardName"
+                        placeholder="Nume pentru tablă"
                         defaultValue={boardName}
                         autoComplete="off"
                     />
-                    <button className="editBoardTitle" type="submit">
+                    <button type="submit">
                         <i className="far fa-save"></i>
                     </button>
                 </form>
@@ -153,26 +213,54 @@ const Board = () => {
     };
 
     return (
-        <main className="board">
-            {cardEdit ? <CardEditModal /> : ""}
-            {boardNameTag()}
-            <form
-                className="searchInBoard"
-                onSubmit={(event) => event.preventDefault()}
-            >
-                <input
-                    autoComplete="off"
-                    type="text"
-                    name="search"
-                    value={searchString}
-                    onChange={(event) => setSearchString(event.target.value)}
-                />
-                <i className="fas fa-search"></i>
-            </form>
-            <section className="columnsSection">
-                <Column />
-            </section>
-        </main>
+        <div>
+            {!loading ? (
+                <main className="board">
+                    {cardEdit ? <CardEditModal /> : ""}
+                    {boardNameTag()}
+                    {search ? (
+                        <form
+                            className="searchInBoard"
+                            onSubmit={(event) => event.preventDefault()}
+                        >
+                            <input
+                                autoComplete="off"
+                                type="text"
+                                name="search"
+                                value={searchString}
+                                onChange={(event) =>
+                                    setSearchString(event.target.value)
+                                }
+                            />
+                            <i className="fas fa-search"></i>
+                        </form>
+                    ) : (
+                        ""
+                    )}
+                    {addColumnForm ? (
+                        <form className="addColumnForm" onSubmit={addColumn}>
+                            <input
+                                autoComplete="off"
+                                type="text"
+                                name="columnName"
+                                placeholder="Nume pentru coloană"
+                                defaultValue={""}
+                            />
+                            <button type="submit"> Adaugă </button>
+                            <button onClick={() => setAddColumnForm(false)}>
+                                Anulează
+                            </button>
+                        </form>
+                    ) : (
+                        <section className="columnsSection">
+                            <Column />
+                        </section>
+                    )}
+                </main>
+            ) : (
+                <div className="lds-dual-ring"></div>
+            )}
+        </div>
     );
 };
 

@@ -2,6 +2,15 @@ section.columnsSection > div {
     height: 100%;
 }
 
+section.columnsSection .tips {
+    color: var(--black);
+    text-align: center;
+    font-size: 1rem;
+    padding: 1rem;
+    border-radius: 5px;
+    background-color: var(--green);
+}
+
 section.columnsSection .column {
     display: flex;
     flex-flow: column;

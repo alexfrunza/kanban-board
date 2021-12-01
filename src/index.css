@@ -41,6 +41,7 @@ ul {
 }
 
 div#root {
+    background-color: var(--black);
     display: flex;
     flex-flow: column;
     height: 100%;
