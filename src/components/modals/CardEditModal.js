@@ -5,16 +5,43 @@ import {
     columnsState,
     editedCardState,
 } from "store/board/boardState.js";
+import { useParams } from "react-router-dom";
+import { inputCleanUp } from "utils.js";
+import { warningMessageState, modalConfirmState } from "store/app/appState.js";
 import "components/modals/CardEditModal.css";
 
 const CardEditModal = (props) => {
+    const token = localStorage.getItem("token");
     const setCardEdit = useSetRecoilState(cardEditModalState);
     const [editedCard, setEditedCard] = useRecoilState(editedCardState);
+    const setWarningMessage = useSetRecoilState(warningMessageState);
+    const setModalConfirm = useSetRecoilState(modalConfirmState);
 
     const [cardNameEdit, setCardNameEdit] = useState(false);
     const [cardDescriptionEdit, setCardDescriptionEdit] = useState(false);
 
     const [columns, setColumns] = useRecoilState(columnsState);
+    const params = useParams();
+
+    const sendModifiedCard = async (body) => {
+        let response = await fetch(
+            `http://127.0.0.1:5003/boards/${params.boardId}/columns/${editedCard.columnId}/cards/${editedCard.id}`,
+            {
+                method: "PUT",
+                headers: {
+                    Authorization: `Bearer ${token}`,
+                    "Content-Type": "application/json",
+                },
+                body: JSON.stringify(body),
+            }
+        );
+        if (response.status === 200) {
+            return [true];
+        } else {
+            let result = await response.json();
+            return [false, result.details];
+        }
+    };
 
     const replaceCard = (editedCardCpy) => {
         let columnsCpy = [...columns];
@@ -55,7 +82,7 @@ const CardEditModal = (props) => {
     };
 
     const addNewCard = (columns, columnId, cardObj) => {
-        let cardObjCpy = {...cardObj};
+        let cardObjCpy = { ...cardObj };
         cardObjCpy.columnId = columnId;
 
         let columnsCpy = [...columns];
@@ -72,20 +99,27 @@ const CardEditModal = (props) => {
         return columnsCpy;
     };
 
-    const modifyCardName = (event) => {
+    const modifyCardName = async (event) => {
         event.preventDefault();
         event.stopPropagation();
+        setWarningMessage("");
 
-        const newName = document.querySelector('[name="cardName"]').value;
-        if (newName.trim()) {
-            let editedCardCpy = {
-                ...editedCard,
-                name: newName,
-            };
-            replaceCard(editedCardCpy);
-        }
+        const name = document.querySelector('[name="cardName"]').value.trim();
+        if (name) {
+            const [modified, message] = await sendModifiedCard({ name });
+            if (modified) {
+                let editedCardCpy = {
+                    ...editedCard,
+                    name,
+                };
+                replaceCard(editedCardCpy);
+                setCardNameEdit(false);
+            } else {
+                inputCleanUp("cardName");
+                setWarningMessage(message);
+            }
+        } else setCardNameEdit(false);
 
-        setCardNameEdit(false);
     };
 
     const modifyCardDescription = (event) => {
@@ -111,9 +145,9 @@ const CardEditModal = (props) => {
         const newColumnId = document.querySelector('[name="cardColumn"]').value;
         let columnsCpy = [...columns];
         columnsCpy = deleteCard(columnsCpy, editedCard.columnId, editedCard.id);
-        columnsCpy = addNewCard(columnsCpy, newColumnId, {...editedCard});
+        columnsCpy = addNewCard(columnsCpy, newColumnId, { ...editedCard });
         setColumns(columnsCpy);
-        console.log('coloana schimbat');
+        console.log("coloana schimbat");
     };
 
     useEffect(() => {

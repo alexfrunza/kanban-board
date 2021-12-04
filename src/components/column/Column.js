@@ -114,18 +114,46 @@ const Column = (props) => {
         } else setColumnNameEdit(false);
     };
 
-    const addCard = (event) => {
-        // TODO: query to database to fetch an id
+    const addCard = async (event) => {
         event.preventDefault();
-        let newCardName = event.target.newCardName.value.trim();
-        if (newCardName) {
-            let columnsCpy = [...columns];
-            columnsCpy[number] = {
-                ...data,
-                cards: [{ name: newCardName, id: 1034 }, ...data.cards],
+        let name = event.target.newCardName.value.trim();
+        setWarningMessage("");
+
+        if (name) {
+            let card = {
+                name,
             };
-            setColumns(columnsCpy);
-            setAddCardEdit(false);
+            let columnsCpy = [...columns];
+            let columnId = columnsCpy[number].id;
+
+            let response = await fetch(
+                `http://127.0.0.1:5003/boards/${params.boardId}/columns/${columnId}/cards`,
+                {
+                    method: "POST",
+                    headers: {
+                        Authorization: `Bearer ${token}`,
+                        "Content-Type": "application/json",
+                    },
+                    body: JSON.stringify(card),
+                }
+            );
+            let result = await response.json();
+
+            if (response.status === 201) {
+                columnsCpy[number] = {
+                    ...data,
+                    cards: [{ name, id: result.id }, ...data.cards],
+                };
+                setColumns(columnsCpy);
+                setAddCardEdit(false);
+            } else {
+                inputCleanUp("newCardName");
+                setWarningMessage(result.details);
+            }
+        } else {
+            setWarningMessage(
+                "Trebuie sa introduci un nume pentru a crea o noua carte!"
+            );
         }
     };
 
@@ -257,7 +285,6 @@ const Column = (props) => {
         }
         return (
             <p className="tips">
-                {" "}
                 Sfat: Adauga o coloana utilizand simbolul +{" "}
             </p>
         );

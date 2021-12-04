@@ -19,9 +19,6 @@ const Card = (props) => {
         >
             <h3> {data.name} </h3>
             <div className="properties">
-                {/* TODO: Implement labels and assignedTo */}
-                <div className="assignedTo"></div>
-                <div className="labels"></div>
                 <i
                     className="fas fa-align-left description-icon"
                     style={{

@@ -1,6 +1,7 @@
 div.warning {
     color: var(--black);
     position: absolute;
+    z-index: 1000;
     padding: 1.5rem;
     text-align: center;
     width: 80%;
