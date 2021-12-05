@@ -119,35 +119,82 @@ const CardEditModal = (props) => {
                 setWarningMessage(message);
             }
         } else setCardNameEdit(false);
-
     };
 
-    const modifyCardDescription = (event) => {
+    const modifyCardDescription = async (event) => {
         event.stopPropagation();
         event.preventDefault();
+        setWarningMessage("");
 
-        const newDescription = document.querySelector(
-            '[name="cardDescription"]'
-        ).value;
-        let editedCardCpy = {
-            ...editedCard,
-            description: newDescription.trim(),
-        };
-        replaceCard(editedCardCpy);
+        const description = document
+            .querySelector('[name="cardDescription"]')
+            .value.trim();
 
-        setCardDescriptionEdit(false);
+        const [modified, message] = await sendModifiedCard({ description });
+        if (modified) {
+            let editedCardCpy = {
+                ...editedCard,
+                description,
+            };
+            replaceCard(editedCardCpy);
+            setCardDescriptionEdit(false);
+        } else {
+            inputCleanUp("cardDescription");
+            setWarningMessage(message);
+        }
     };
 
-    const modifyCardColumn = (event) => {
+    const modifyCardColumn = async (event) => {
         event.stopPropagation();
         event.preventDefault();
+        setWarningMessage("");
 
-        const newColumnId = document.querySelector('[name="cardColumn"]').value;
-        let columnsCpy = [...columns];
-        columnsCpy = deleteCard(columnsCpy, editedCard.columnId, editedCard.id);
-        columnsCpy = addNewCard(columnsCpy, newColumnId, { ...editedCard });
-        setColumns(columnsCpy);
-        console.log("coloana schimbat");
+        const newColumnId = parseInt(
+            document.querySelector('[name="cardColumn"]').value
+        );
+        const [modified, message] = await sendModifiedCard({
+            column_id: newColumnId,
+        });
+        if (modified) {
+            let columnsCpy = [...columns];
+            columnsCpy = deleteCard(
+                columnsCpy,
+                editedCard.columnId,
+                editedCard.id
+            );
+            columnsCpy = addNewCard(columnsCpy, newColumnId, { ...editedCard });
+            setColumns(columnsCpy);
+            setEditedCard({ ...editedCard, columnId: newColumnId });
+        } else {
+            setWarningMessage(message);
+        }
+    };
+
+    const deleteCardDb = async () => {
+        setWarningMessage("");
+
+        let response = await fetch(
+            `http://127.0.0.1:5003/boards/${params.boardId}/columns/${editedCard.columnId}/cards/${editedCard.id}`,
+            {
+                method: "DELETE",
+                headers: {
+                    Authorization: `Bearer ${token}`,
+                },
+            }
+        );
+        if (response.status === 200) {
+            let columnsCpy = [...columns];
+            columnsCpy = deleteCard(
+                columnsCpy,
+                editedCard.columnId,
+                editedCard.id
+            );
+            setColumns(columnsCpy);
+            setCardEdit(false);
+        } else {
+            let result = await response.json();
+            setWarningMessage(result.details);
+        }
     };
 
     useEffect(() => {
@@ -242,24 +289,6 @@ const CardEditModal = (props) => {
             </div>
             <div className="cardField">
                 <h4 className="cardFieldName">
-                    Etichete
-                    <button>
-                        <i className="fas fa-edit"></i>
-                    </button>
-                </h4>
-                <p> </p>
-            </div>
-            <div className="cardField">
-                <h4 className="cardFieldName">
-                    Atribuiri
-                    <button>
-                        <i className="fas fa-edit"></i>
-                    </button>
-                </h4>
-                <p> </p>
-            </div>
-            <div className="cardField">
-                <h4 className="cardFieldName">
                     Coloana
                     <button onClick={modifyCardColumn}>
                         <i className="far fa-save"></i>
@@ -280,6 +309,19 @@ const CardEditModal = (props) => {
                     </select>
                 </form>
             </div>
+            <button
+                className="delete-card"
+                onClick={(event) => {
+                    event.preventDefault();
+                    setModalConfirm({
+                        show: true,
+                        action: deleteCardDb,
+                        text: "Esti sigur ca doresti sa stergi acest articol?",
+                    });
+                }}
+            >
+                Sterge articolul
+            </button>
         </div>
     );
 };

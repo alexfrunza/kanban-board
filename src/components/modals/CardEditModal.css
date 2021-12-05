@@ -72,3 +72,10 @@
     border: 2px solid var(--blue);
     outline: none;
 }
+
+.board .modalMenu button.delete-card {
+    padding: 1rem;
+    background-color: var(--red);
+    border-radius: 5px;
+    color: var(--white);
+}

@@ -1,6 +1,7 @@
 div.modal-confirm-wrapper {
     background-color: rgba(29, 29, 45, 0.5);
     position: absolute;
+    z-index: 500;
     top:0;
     left:0;
     height: 100vh;

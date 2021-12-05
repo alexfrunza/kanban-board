@@ -142,7 +142,7 @@ const Column = (props) => {
             if (response.status === 201) {
                 columnsCpy[number] = {
                     ...data,
-                    cards: [{ name, id: result.id }, ...data.cards],
+                    cards: [{ name, id: result.card_id, columnId}, ...data.cards],
                 };
                 setColumns(columnsCpy);
                 setAddCardEdit(false);
