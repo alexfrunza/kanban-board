@@ -21,6 +21,12 @@ div.modal-confirm {
     filter: none;
 }
 
+@media only screen and (min-width: 768px) {
+    div.modal-confirm {
+        width: 400px;
+    }
+}
+
 div.modal-confirm button {
     margin-top: 1rem;
     border-radius: 5px;

@@ -16,6 +16,13 @@ main.register form{
     text-align: center;
 }
 
+@media only screen and (min-width: 768px) {
+    main.login form,
+    main.register form {
+        width: 400px;
+    }
+}
+
 main.login input,
 main.register input {
     background-color: var(--light-grey);
