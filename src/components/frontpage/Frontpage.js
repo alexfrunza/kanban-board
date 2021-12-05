@@ -19,7 +19,7 @@ const Frontpage = () => {
                 <div className="logged">
                     <Link to="/about">Despre Proiect</Link>
                     <Link to="/boards"> Table </Link>
-                    <Link to="/profile"> Profil </Link>
+                    <Link to="/account"> Profil </Link>
                 </div>
             ) : (
                 <div>

@@ -8,6 +8,7 @@ import Frontpage from "components/frontpage/Frontpage";
 import About from "components/about/About";
 import Register from "components/account/Register";
 import Login from "components/account/Login";
+import Account from "components/account/Account";
 import Warning from "components/warning/Warning";
 import Boards from "components/boards/Boards";
 import ModalConfirm from "components/modals/ModalConfirm";
@@ -27,6 +28,7 @@ const App = () => {
                     <Route path="/login" element={<Login />} />
                     <Route path="/boards" element={<Boards />} />
                     <Route path="/boards/:boardId" element={<Board />} />
+                    <Route path="/account" element={<Account />} />
                 </Routes>
             </BrowserRouter>
         </RecoilRoot>

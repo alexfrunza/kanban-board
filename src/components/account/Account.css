@@ -41,3 +41,10 @@ main.register form button {
     background-color: var(--orange);
     color: var(--black);
 }
+
+main.account {
+    color: var(--white);
+    padding: 1rem;
+}
+
+

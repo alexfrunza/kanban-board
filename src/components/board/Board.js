@@ -6,8 +6,7 @@ import CardEditModal from "components/modals/CardEditModal";
 import { cardEditModalState, columnsState } from "store/board/boardState.js";
 import { useSetRecoilState } from "recoil";
 import { warningMessageState } from "store/app/appState.js";
-import { singout } from "settings.js";
-import { inputCleanUp } from "utils.js";
+import { inputCleanUp, signout } from "utils.js";
 import "components/board/Board.css";
 
 const Board = () => {
@@ -78,7 +77,7 @@ const Board = () => {
             .then((res) => [res.json(), res.status])
             .then(([result, status]) => {
                 if (status === 401) {
-                    singout();
+                    signout();
                     navigate("/");
                 } else if (status !== 200) navigate("/");
                 else return result;

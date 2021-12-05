@@ -1,6 +1,6 @@
 import { React, useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
-import { singout } from "settings.js";
+import { signout } from "utils.js";
 import { useSetRecoilState } from "recoil";
 import { warningMessageState, modalConfirmState } from "store/app/appState.js";
 import "components/boards/Boards.css";
@@ -82,7 +82,7 @@ const Boards = () => {
             .then((res) => [res.json(), res.status])
             .then(([result, status]) => {
                 if (status === 401) {
-                    singout();
+                    signout();
                     navigate("/");
                 } else return result;
             })

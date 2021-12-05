@@ -1,7 +1,7 @@
 import React from "react";
 import { useNavigate, useLocation } from "react-router-dom";
 import "components/navbar/Navbar.css";
-import { singout } from "settings.js";
+import { signout } from "utils.js";
 
 const Navbar = () => {
     const loggedIn = localStorage.getItem("token");
@@ -26,7 +26,7 @@ const Navbar = () => {
                     className="logout"
                     onClick={(event) => {
                         event.preventDefault();
-                        singout();
+                        signout();
                         if (location.pathname !== "/") navigate("/");
                         else navigate(0);
                     }}
