@@ -21,12 +21,15 @@ main.boards > div:not(.lds-dual-ring) {
     main.boards > div:not(.lds-dual-ring) {
         width: 500px;
     }
+
+    main.boards ul {
+        padding-right: 1rem;
+    }
 }
 
 main.boards ul {
     height: 100%;
     overflow: auto;
-    padding-right: 1rem;
 }
 
 main.boards ul li {

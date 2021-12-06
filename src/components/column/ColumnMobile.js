@@ -142,7 +142,10 @@ const ColumnMobile = (props) => {
             if (response.status === 201) {
                 columnsCpy[number] = {
                     ...data,
-                    cards: [{ name, id: result.card_id, columnId}, ...data.cards],
+                    cards: [
+                        { name, id: result.card_id, columnId },
+                        ...data.cards,
+                    ],
                 };
                 setColumns(columnsCpy);
                 setAddCardEdit(false);
@@ -173,7 +176,7 @@ const ColumnMobile = (props) => {
                             setModalConfirm({
                                 show: true,
                                 action: deleteColumn,
-                                text: "Esti sigur ca doresti sa stergi aceasta coloana?",
+                                text: "Ești sigur că dorești să ștergi această coloană?",
                             })
                         }
                     >
@@ -218,10 +221,10 @@ const ColumnMobile = (props) => {
                         name="newCardName"
                         defaultValue={""}
                         autoComplete="off"
-                        placeholder="Adaugă  un nume pentru articol..."
+                        placeholder="Adaugă un nume pentru articol..."
                     />
                     <button className="submitCard" type="submit">
-                        Adauga articol
+                        Adaugă articol
                     </button>
                     <button
                         className="cancel"
@@ -284,9 +287,7 @@ const ColumnMobile = (props) => {
             );
         }
         return (
-            <p className="tips">
-                Sfat: Adauga o coloana utilizand simbolul +{" "}
-            </p>
+            <p className="tips">Sfat: Adaugă o coloană utilizând simbolul +</p>
         );
     };
 

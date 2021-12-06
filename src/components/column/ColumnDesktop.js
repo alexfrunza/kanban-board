@@ -3,7 +3,7 @@ import { useRecoilState, useSetRecoilState } from "recoil";
 import { columnsState } from "store/board/boardState.js";
 import { warningMessageState, modalConfirmState } from "store/app/appState.js";
 import { useParams } from "react-router-dom";
-import Card from 'components/card/Card';
+import Card from "components/card/Card";
 
 const ColumnDesktop = (props) => {
     const setWarningMessage = useSetRecoilState(warningMessageState);
@@ -63,6 +63,10 @@ const ColumnDesktop = (props) => {
             );
             if (response.status === 200) {
                 let columnsCpy = [...columns];
+                let number = columnsCpy.findIndex(
+                    (column) => column.id === data.id
+                );
+                columnsCpy[number] = { ...data, name };
                 setColumnNameEdit(false);
                 setColumns(columnsCpy);
             } else {
@@ -81,10 +85,6 @@ const ColumnDesktop = (props) => {
             let card = {
                 name,
             };
-            let columnsCpy = [...columns];
-            let number = columnsCpy.findIndex(
-                (column) => column.id === data.id
-            );
 
             let response = await fetch(
                 `http://127.0.0.1:5003/boards/${params.boardId}/columns/${data.id}/cards`,
@@ -100,6 +100,10 @@ const ColumnDesktop = (props) => {
             let result = await response.json();
 
             if (response.status === 201) {
+                let columnsCpy = [...columns];
+                let number = columnsCpy.findIndex(
+                    (column) => column.id === data.id
+                );
                 columnsCpy[number] = {
                     ...data,
                     cards: [
@@ -114,7 +118,7 @@ const ColumnDesktop = (props) => {
             }
         } else {
             setWarningMessage(
-                "Trebuie sa introduci un nume pentru a crea o noua carte!"
+                "Trebuie să introduci un nume pentru a crea o nouă carte!"
             );
         }
     };
@@ -135,7 +139,7 @@ const ColumnDesktop = (props) => {
                             setModalConfirm({
                                 show: true,
                                 action: deleteColumn,
-                                text: "Esti sigur ca doresti sa stergi aceasta coloana?",
+                                text: "Ești sigur că dorești să ștergi această coloană?",
                             })
                         }
                     >
@@ -183,7 +187,7 @@ const ColumnDesktop = (props) => {
                         placeholder="Adaugă un nume pentru articol..."
                     />
                     <button className="submitCard" type="submit">
-                        Adauga articol
+                        Adaugă articol
                     </button>
                     <button
                         className="cancel"
@@ -216,7 +220,7 @@ const ColumnDesktop = (props) => {
             );
         }
         return (
-            <p className="tips">Sfat: Adauga o coloana utilizand simbolul + </p>
+            <p className="tips">Sfat: Adaugă o coloană utilizând simbolul +</p>
         );
     };
 

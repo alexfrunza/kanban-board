@@ -217,8 +217,14 @@ const Board = () => {
 
     const renderColumnsSection = () => {
         if (desktopView) {
+            if (columns.length === 0)
+                return (
+                    <p className="tips">
+                        Sfat: Adaugă o coloană utilizând simbolul +
+                    </p>
+                );
             return columns.map((column) => {
-                return <ColumnDesktop key={column.id} value={column}/>;
+                return <ColumnDesktop key={column.id} value={column} />;
             });
         } else {
             return <ColumnMobile />;

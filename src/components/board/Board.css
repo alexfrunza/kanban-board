@@ -118,16 +118,30 @@ main.board .columnsSection {
 
 @media only screen and (min-width: 768px) {
     main.board .columnsSection {
-        overflow-x: scroll;
+        overflow-x: auto;
         display: flex;
     }
 
     main.board .columnsSection > div {
         margin-right: 2rem;
         min-width: 400px;
+        max-width: 400px;
+    }
+
+    main.board .columnsSection p.tips {
+        align-self: start;
+        margin: 0 auto;
     }
 
     main.board .columnsSection .columnHeader {
         justify-content: center;
+    }
+
+    main.board .addColumnForm {
+        margin: 0 auto;
+    }
+
+    main.board .addColumnForm input {
+        width: 400px;
     }
 }
