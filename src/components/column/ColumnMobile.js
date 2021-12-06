@@ -11,7 +11,7 @@ import { useParams } from "react-router-dom";
 import { inputCleanUp } from "utils.js";
 import "components/column/Column.css";
 
-const Column = (props) => {
+const ColumnMobile = (props) => {
     const setWarningMessage = useSetRecoilState(warningMessageState);
     const setModalConfirm = useSetRecoilState(modalConfirmState);
     const token = localStorage.getItem("token");
@@ -293,4 +293,4 @@ const Column = (props) => {
     return <div>{showColumn()}</div>;
 };
 
-export default Column;
+export default ColumnMobile;

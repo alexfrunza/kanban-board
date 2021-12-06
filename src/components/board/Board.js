@@ -1,7 +1,8 @@
 import React, { useState, useEffect } from "react";
 import { useRecoilState, useRecoilValue } from "recoil";
 import { useParams, useNavigate } from "react-router-dom";
-import Column from "components/column/Column";
+import ColumnMobile from "components/column/ColumnMobile";
+import ColumnDesktop from "components/column/ColumnDesktop";
 import CardEditModal from "components/modals/CardEditModal";
 import { cardEditModalState, columnsState } from "store/board/boardState.js";
 import { useSetRecoilState } from "recoil";
@@ -10,6 +11,9 @@ import { inputCleanUp, signout } from "utils.js";
 import "components/board/Board.css";
 
 const Board = () => {
+    const mql = window.matchMedia("(min-width: 768px)");
+    let desktopView = mql.matches;
+
     const token = localStorage.getItem("token");
     const navigate = useNavigate();
 
@@ -211,6 +215,16 @@ const Board = () => {
         }
     };
 
+    const renderColumnsSection = () => {
+        if (desktopView) {
+            return columns.map((column) => {
+                return <ColumnDesktop key={column.id} value={column}/>;
+            });
+        } else {
+            return <ColumnMobile />;
+        }
+    };
+
     return (
         <div>
             {!loading ? (
@@ -252,7 +266,7 @@ const Board = () => {
                         </form>
                     ) : (
                         <section className="columnsSection">
-                            <Column />
+                            {renderColumnsSection()}
                         </section>
                     )}
                 </main>

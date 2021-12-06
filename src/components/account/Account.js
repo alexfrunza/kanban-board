@@ -9,6 +9,7 @@ const Account = () => {
     const [boardNumber, setBoardNumber] = useState(0);
     const [columnNumber, setColumnNumber] = useState(0);
     const [cardNumber, setCardNumber] = useState(0);
+    const [loading, setLoading] = useState(true);
 
     const getStats = async () => {
         let response = await fetch(`http://127.0.0.1:5003/user/stats`, {
@@ -19,6 +20,7 @@ const Account = () => {
 
         if (response.status === 200) {
             let result = await response.json();
+            setLoading(false);
             return [result, true];
         } else if (response.status === 401) {
             signout();
@@ -42,12 +44,16 @@ const Account = () => {
 
     return (
         <main className="account">
-            <div className="stats">
-                <h2> Statistici: </h2>
-                <p> Numar de table: {boardNumber} </p>
-                <p> Numar de coloane: {columnNumber} </p>
-                <p> Numar de articole: {cardNumber} </p>
-            </div>
+            {loading ? (
+                <div className="lds-dual-ring" />
+            ) : (
+                <div className="stats">
+                    <h2> Statistici: </h2>
+                    <p> Numar de table: {boardNumber} </p>
+                    <p> Numar de coloane: {columnNumber} </p>
+                    <p> Numar de articole: {cardNumber} </p>
+                </div>
+            )}
         </main>
     );
 };

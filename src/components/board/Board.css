@@ -104,11 +104,30 @@ main.board .columnsSection {
 }
 
 /* Hide columns scrollbar */
-main.board .columnsSection::-webkit-scrollbar {
-    display: none;
+@media only screen and (max-width: 768px) {
+    main.board .columnsSection::-webkit-scrollbar {
+        display: none;
+    }
+
+    main.board .columnsSection {
+        -ms-overflow-style: none;
+        scrollbar-width: none;
+    }
 }
 
-main.board .columnsSection {
-    -ms-overflow-style: none;
-    scrollbar-width: none;
+
+@media only screen and (min-width: 768px) {
+    main.board .columnsSection {
+        overflow-x: scroll;
+        display: flex;
+    }
+
+    main.board .columnsSection > div {
+        margin-right: 2rem;
+        min-width: 400px;
+    }
+
+    main.board .columnsSection .columnHeader {
+        justify-content: center;
+    }
 }
