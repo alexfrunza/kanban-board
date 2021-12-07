@@ -1,7 +1,7 @@
 main.login,
 main.register {
     color: var(--white);
-    height: 100%;
+    height: calc( 100vh - 3.5rem);
     display: flex;
     flex-flow: column;
     justify-content: center;
@@ -50,6 +50,7 @@ main.register form button {
 }
 
 main.account {
+    height: calc( 100vh - 3.5rem);
     color: var(--white);
     padding: 1rem;
 }

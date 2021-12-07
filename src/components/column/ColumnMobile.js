@@ -5,6 +5,8 @@ import {
     currentColumnState,
     numberOfCurrentColumnState,
     columnsState,
+    searchState,
+    searchedColumnsState,
 } from "store/board/boardState.js";
 import { warningMessageState, modalConfirmState } from "store/app/appState.js";
 import { useParams } from "react-router-dom";
@@ -17,11 +19,17 @@ const ColumnMobile = (props) => {
     const token = localStorage.getItem("token");
     const [number, setNumber] = useRecoilState(numberOfCurrentColumnState);
     const [columns, setColumns] = useRecoilState(columnsState);
+    const search = useRecoilValue(searchState);
+    const searchedColumns = useRecoilValue(searchedColumnsState);
     const data = useRecoilValue(currentColumnState);
     const params = useParams();
 
     const [columnNameEdit, setColumnNameEdit] = useState(false);
     const [addCardEdit, setAddCardEdit] = useState(false);
+
+    useEffect(() => {
+        setNumber(0);
+    }, [search]);
 
     useEffect(() => {
         setNumber(0);
@@ -44,16 +52,18 @@ const ColumnMobile = (props) => {
     };
 
     const changeColumnLeft = () => {
+        let currentColumns = search ? searchedColumns : columns;
         if (number !== 0) {
             setNumber(number - 1);
         } else {
-            setNumber(columns.length - 1);
+            setNumber(currentColumns.length - 1);
         }
         resetColumn();
     };
 
     const changeColumnRight = () => {
-        if (number !== columns.length - 1) {
+        let currentColumns = search ? searchedColumns : columns;
+        if (number !== currentColumns.length - 1) {
             setNumber(number + 1);
         } else {
             setNumber(0);
@@ -103,6 +113,9 @@ const ColumnMobile = (props) => {
             );
             if (response.status === 200) {
                 let columnsCpy = [...columns];
+                let number = columnsCpy.findIndex(
+                    (column) => column.id === data.id
+                );
                 columnsCpy[number] = { ...data, name };
                 setColumnNameEdit(false);
                 setColumns(columnsCpy);
@@ -123,11 +136,9 @@ const ColumnMobile = (props) => {
             let card = {
                 name,
             };
-            let columnsCpy = [...columns];
-            let columnId = columnsCpy[number].id;
 
             let response = await fetch(
-                `http://127.0.0.1:5003/boards/${params.boardId}/columns/${columnId}/cards`,
+                `http://127.0.0.1:5003/boards/${params.boardId}/columns/${data.id}/cards`,
                 {
                     method: "POST",
                     headers: {
@@ -140,10 +151,14 @@ const ColumnMobile = (props) => {
             let result = await response.json();
 
             if (response.status === 201) {
+                let columnsCpy = [...columns];
+                let number = columnsCpy.findIndex(
+                    (column) => column.id === data.id
+                );
                 columnsCpy[number] = {
                     ...data,
                     cards: [
-                        { name, id: result.card_id, columnId },
+                        { name, id: result.card_id, columnId: data.id },
                         ...data.cards,
                     ],
                 };
@@ -244,18 +259,20 @@ const ColumnMobile = (props) => {
 
     const showColumn = () => {
         if (data) {
+            let currentColumns = [...columns];
+            if (search) currentColumns = [...searchedColumns];
             return (
                 <div id={data.id} className="column">
                     <div
                         className="columnHeader"
                         style={{
                             justifyContent:
-                                columns.length === 1
+                                currentColumns.length === 1
                                     ? "center"
                                     : "space-between",
                         }}
                     >
-                        {columns.length > 1 ? (
+                        {currentColumns.length > 1 ? (
                             <button
                                 className="changeColumn"
                                 onClick={changeColumnLeft}
@@ -266,7 +283,7 @@ const ColumnMobile = (props) => {
                             ""
                         )}
                         {columnNameTag()}
-                        {columns.length > 1 ? (
+                        {currentColumns.length > 1 ? (
                             <button
                                 className="changeColumn"
                                 onClick={changeColumnRight}
@@ -286,6 +303,10 @@ const ColumnMobile = (props) => {
                 </div>
             );
         }
+        if (search)
+            return (
+                <p className="tips tips-red"> Nu au fost găsite rezultate </p>
+            );
         return (
             <p className="tips">Sfat: Adaugă o coloană utilizând simbolul +</p>
         );

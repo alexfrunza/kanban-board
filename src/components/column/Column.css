@@ -11,6 +11,10 @@ section.columnsSection .tips {
     background-color: var(--green);
 }
 
+section.columnsSection .tips-red {
+    background-color: var(--red);
+}
+
 section.columnsSection .column {
     display: flex;
     flex-flow: column;

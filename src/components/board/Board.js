@@ -4,7 +4,12 @@ import { useParams, useNavigate } from "react-router-dom";
 import ColumnMobile from "components/column/ColumnMobile";
 import ColumnDesktop from "components/column/ColumnDesktop";
 import CardEditModal from "components/modals/CardEditModal";
-import { cardEditModalState, columnsState } from "store/board/boardState.js";
+import {
+    cardEditModalState,
+    columnsState,
+    searchState,
+    searchedColumnsState,
+} from "store/board/boardState.js";
 import { useSetRecoilState } from "recoil";
 import { warningMessageState } from "store/app/appState.js";
 import { inputCleanUp, signout } from "utils.js";
@@ -22,8 +27,9 @@ const Board = () => {
     const [boardNameEdit, setBoardNameEdit] = useState(false);
 
     const [searchString, setSearchString] = useState("");
-    const [search, setSearch] = useState(false);
-    const [searchedColumns, setSearchedColumns] = useState([]);
+    const [search, setSearch] = useRecoilState(searchState);
+    const [searchedColumns, setSearchedColumns] =
+        useRecoilState(searchedColumnsState);
 
     const [addColumnForm, setAddColumnForm] = useState(false);
     const setWarningMessage = useSetRecoilState(warningMessageState);
@@ -211,7 +217,9 @@ const Board = () => {
                             onClick={() => {
                                 if (!search && !searchString)
                                     setSearchedColumns([...columns]);
-                                else setSearchedColumns([]);
+                                else if (!search && searchString) {
+                                    searchCards(searchString);
+                                } else setSearchedColumns([]);
                                 setSearch(!search);
                                 setAddColumnForm(false);
                             }}
@@ -256,6 +264,10 @@ const Board = () => {
 
     const renderColumnsSection = () => {
         if (desktopView) {
+            if (searchedColumns.length === 0 && search)
+                return (
+                    <p className="tips tips-red">Nu au fost găsite rezultate</p>
+                );
             if (columns.length === 0)
                 return (
                     <p className="tips">
@@ -277,7 +289,7 @@ const Board = () => {
     };
 
     return (
-        <div>
+        <div className="board-content">
             {!loading ? (
                 <main className="board">
                     {cardEdit ? <CardEditModal /> : ""}

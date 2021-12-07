@@ -20,7 +20,10 @@ export const currentColumnState = selector({
     get: ({ get }) => {
         const columns = get(columnsState);
         const numberOfCurrentColumn = get(numberOfCurrentColumnState);
+        const search = get(searchState);
+        const searchedColumns = get(searchedColumnsState);
 
+        if (search) return searchedColumns[numberOfCurrentColumn];
         return columns[numberOfCurrentColumn];
     },
 });
@@ -28,4 +31,14 @@ export const currentColumnState = selector({
 export const editedCardState = atom({
     key: "editedCardState",
     default: {},
+});
+
+export const searchedColumnsState = atom({
+    key: "searchedColumnsState",
+    default: [],
+});
+
+export const searchState = atom({
+    key: "search",
+    default: false
 });

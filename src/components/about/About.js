@@ -1,6 +1,11 @@
 import React from "react";
+import "components/about/About.css";
 
 const About = () => {
-    return <h1> About </h1>;
+    return (
+        <main className="about">
+            <h1> Despre Proiect </h1>
+        </main>
+    );
 };
 export default About;

@@ -1,11 +1,15 @@
 /* TODO: Add style to board */
 
+.board-content {
+    height: calc(100vh - 3.5rem);
+}
+
 main.board {
     display: flex;
     flex-flow: column;
     background-color: var(--black);
     padding: 0.5rem;
-    height: calc(100vh - 3.5rem);
+    height: 100%;
 }
 
 main.board .boardName {

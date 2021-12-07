@@ -6,7 +6,7 @@ main.frontpage {
     padding-bottom: 5rem;
     justify-content: center;
     align-items: center;
-    height: 100%;
+    height: calc( 100vh - 3.5rem);
 }
 
 main.frontpage > div {
