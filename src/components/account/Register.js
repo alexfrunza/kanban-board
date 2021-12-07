@@ -55,9 +55,9 @@ const Register = () => {
                 <i className="far fa-sticky-note"></i> Kanban Boards
             </h2>
             <form className="registerForm" onSubmit={submitRegister}>
-                <input name="email" placeholder="Email" />
-                <input name="nickname" placeholder="Prorecla" />
-                <input name="password" type="password" placeholder="Parola" />
+                <input autoComplete="off" name="email" placeholder="Email" />
+                <input autoComplete="off" name="nickname" placeholder="Prorecla" />
+                <input autoComplete="off" name="password" type="password" placeholder="Parola" />
                 <button type="submit"> Înregistrare </button>
             </form>
         </main>

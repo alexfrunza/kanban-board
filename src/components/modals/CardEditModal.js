@@ -214,114 +214,117 @@ const CardEditModal = (props) => {
     }, [cardDescriptionEdit]);
 
     return (
-        <div className="modalMenu">
-            <button
-                onClick={(event) => {
-                    event.stopPropagation();
-                    event.preventDefault();
-                    setCardEdit(false);
-                }}
-            >
-                <i className="fas fa-times close-modalEdit"></i>
-            </button>
-            <h2> Detalii articol </h2>
-            <div className="cardField">
-                <h4 className="cardFieldName">
-                    Nume
+        <div className="modalMenuWrapper">
+            <div className="modalMenu">
+                <button
+                    onClick={(event) => {
+                        event.stopPropagation();
+                        event.preventDefault();
+                        setEditedCard({});
+                        setCardEdit(false);
+                    }}
+                >
+                    <i className="fas fa-times close-modalEdit"></i>
+                </button>
+                <h2> Detalii articol </h2>
+                <div className="cardField">
+                    <h4 className="cardFieldName">
+                        Nume
+                        {cardNameEdit ? (
+                            <button onClick={modifyCardName}>
+                                <i className="far fa-save"></i>
+                            </button>
+                        ) : (
+                            <button
+                                onClick={(event) => {
+                                    event.stopPropagation();
+                                    event.preventDefault();
+                                    setCardNameEdit(true);
+                                }}
+                            >
+                                <i className="fas fa-edit"></i>
+                            </button>
+                        )}
+                    </h4>
                     {cardNameEdit ? (
-                        <button onClick={modifyCardName}>
-                            <i className="far fa-save"></i>
-                        </button>
+                        <form onSubmit={modifyCardName}>
+                            <input
+                                name="cardName"
+                                defaultValue={editedCard.name}
+                                autoComplete="off"
+                            />
+                        </form>
                     ) : (
-                        <button
-                            onClick={(event) => {
-                                event.stopPropagation();
-                                event.preventDefault();
-                                setCardNameEdit(true);
-                            }}
-                        >
-                            <i className="fas fa-edit"></i>
-                        </button>
+                        <p>{editedCard.name}</p>
                     )}
-                </h4>
-                {cardNameEdit ? (
-                    <form onSubmit={modifyCardName}>
-                        <input
-                            name="cardName"
-                            defaultValue={editedCard.name}
-                            autoComplete="off"
-                        />
-                    </form>
-                ) : (
-                    <p>{editedCard.name}</p>
-                )}
-            </div>
-            <div className="cardField">
-                <h4 className="cardFieldName">
-                    Descriere
+                </div>
+                <div className="cardField">
+                    <h4 className="cardFieldName">
+                        Descriere
+                        {cardDescriptionEdit ? (
+                            <button onClick={modifyCardDescription}>
+                                <i className="far fa-save"></i>
+                            </button>
+                        ) : (
+                            <button
+                                onClick={(event) => {
+                                    event.stopPropagation();
+                                    event.preventDefault();
+                                    setCardDescriptionEdit(true);
+                                }}
+                            >
+                                <i className="fas fa-edit"></i>
+                            </button>
+                        )}
+                    </h4>
                     {cardDescriptionEdit ? (
-                        <button onClick={modifyCardDescription}>
+                        <form onSubmit={modifyCardDescription}>
+                            <textarea
+                                name="cardDescription"
+                                defaultValue={editedCard.description}
+                                autoComplete="off"
+                            />
+                        </form>
+                    ) : (
+                        <p className="description">{editedCard.description}</p>
+                    )}
+                </div>
+                <div className="cardField">
+                    <h4 className="cardFieldName">
+                        Coloană
+                        <button onClick={modifyCardColumn}>
                             <i className="far fa-save"></i>
                         </button>
-                    ) : (
-                        <button
-                            onClick={(event) => {
-                                event.stopPropagation();
-                                event.preventDefault();
-                                setCardDescriptionEdit(true);
-                            }}
+                    </h4>
+                    <form onSubmit={modifyCardColumn}>
+                        <select
+                            name="cardColumn"
+                            defaultValue={editedCard.columnId}
                         >
-                            <i className="fas fa-edit"></i>
-                        </button>
-                    )}
-                </h4>
-                {cardDescriptionEdit ? (
-                    <form onSubmit={modifyCardDescription}>
-                        <textarea
-                            name="cardDescription"
-                            defaultValue={editedCard.description}
-                            autoComplete="off"
-                        />
+                            {columns.map((column, index) => {
+                                return (
+                                    <option value={column.id} key={column.id}>
+                                        {`${index + 1}. ${column.name}`}
+                                    </option>
+                                );
+                            })}
+                        </select>
                     </form>
-                ) : (
-                    <p>{editedCard.description}</p>
-                )}
+                </div>
+                <button
+                    className="delete-card"
+                    onClick={(event) => {
+                        event.preventDefault();
+                        setModalConfirm({
+                            show: true,
+                            action: deleteCardDb,
+                            text: "Ești sigur că dorești să ștergi aceast articol?",
+                        });
+                    }}
+                >
+                    Șterge articolul
+                </button>
             </div>
-            <div className="cardField">
-                <h4 className="cardFieldName">
-                    Coloana
-                    <button onClick={modifyCardColumn}>
-                        <i className="far fa-save"></i>
-                    </button>
-                </h4>
-                <form onSubmit={modifyCardColumn}>
-                    <select
-                        name="cardColumn"
-                        defaultValue={editedCard.columnId}
-                    >
-                        {columns.map((column, index) => {
-                            return (
-                                <option value={column.id} key={column.id}>
-                                    {`${index + 1}. ${column.name}`}
-                                </option>
-                            );
-                        })}
-                    </select>
-                </form>
-            </div>
-            <button
-                className="delete-card"
-                onClick={(event) => {
-                    event.preventDefault();
-                    setModalConfirm({
-                        show: true,
-                        action: deleteCardDb,
-                        text: "Esti sigur ca doresti sa stergi acest articol?",
-                    });
-                }}
-            >
-                Sterge articolul
-            </button>
         </div>
     );
 };

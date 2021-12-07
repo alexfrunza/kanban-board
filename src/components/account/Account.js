@@ -49,9 +49,9 @@ const Account = () => {
             ) : (
                 <div className="stats">
                     <h2> Statistici: </h2>
-                    <p> Numar de table: {boardNumber} </p>
-                    <p> Numar de coloane: {columnNumber} </p>
-                    <p> Numar de articole: {cardNumber} </p>
+                    <p> Număr de table: {boardNumber} </p>
+                    <p> Număr de coloane: {columnNumber} </p>
+                    <p> Număr de articole: {cardNumber} </p>
                 </div>
             )}
         </main>

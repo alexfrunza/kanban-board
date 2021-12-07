@@ -33,10 +33,10 @@ const Board = () => {
     const cardEdit = useRecoilValue(cardEditModalState);
 
     useEffect(() => {
-        if(search) {
+        if (search) {
             searchCards(searchString);
         }
-    }, [columns])
+    }, [columns]);
 
     const addColumn = async (event) => {
         event.preventDefault();
@@ -209,8 +209,10 @@ const Board = () => {
                                 color: search ? "var(--red)" : "var(--white)",
                             }}
                             onClick={() => {
+                                if (!search && !searchString)
+                                    setSearchedColumns([...columns]);
+                                else setSearchedColumns([]);
                                 setSearch(!search);
-                                setSearchedColumns([]);
                                 setAddColumnForm(false);
                             }}
                         >

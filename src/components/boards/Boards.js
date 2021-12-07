@@ -114,7 +114,7 @@ const Boards = () => {
                                                     setModalConfirm({
                                                         show: true,
                                                         action: deleteBoard,
-                                                        text: "Esti sigur ca doresti sa stergi aceasta tabla?",
+                                                        text: "Ești sigur că dorești să ștergi această tablă?",
                                                         actionArgs: [board.id],
                                                     });
                                                 }}
