@@ -58,6 +58,8 @@ main.board input[name="search"]:focus {
 
 main.board .searchInBoard {
     position: relative;
+    margin-bottom: 1rem;
+    align-self: center;
 }
 
 main.board input[name="search"] {
@@ -115,7 +117,7 @@ main.board .columnsSection {
     }
 }
 
-
+/* Style for large screens */
 @media only screen and (min-width: 768px) {
     main.board .columnsSection {
         overflow-x: auto;
@@ -141,7 +143,8 @@ main.board .columnsSection {
         margin: 0 auto;
     }
 
-    main.board .addColumnForm input {
+    main.board .addColumnForm input,
+    main.board input[name="search"] {
         width: 400px;
     }
 }

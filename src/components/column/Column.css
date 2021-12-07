@@ -103,11 +103,19 @@ section.columnsSection .cardsWraper {
 }
 
 /* Hide cards scrollbar */
-section.columnsSection .cardsWraper::-webkit-scrollbar {
-    display: none;
+@media only screen and (max-width: 768px) {
+    section.columnsSection .cardsWraper::-webkit-scrollbar {
+        display: none;
+    }
+
+    section.columnsSection .cardsWraper {
+        -ms-overflow-style: none;
+        scrollbar-width: none;
+    }
 }
 
-section.columnsSection .cardsWraper {
-    -ms-overflow-style: none;
-    scrollbar-width: none;
+@media only screen and (min-width: 768px) {
+    section.columnsSection .cardsWraper {
+        padding: 0 0.5rem;
+    }
 }

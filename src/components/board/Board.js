@@ -20,14 +20,23 @@ const Board = () => {
     const [loading, setLoading] = useState(true);
     const [boardName, setBoardName] = useState("My first board");
     const [boardNameEdit, setBoardNameEdit] = useState(false);
+
     const [searchString, setSearchString] = useState("");
     const [search, setSearch] = useState(false);
+    const [searchedColumns, setSearchedColumns] = useState([]);
+
     const [addColumnForm, setAddColumnForm] = useState(false);
     const setWarningMessage = useSetRecoilState(warningMessageState);
     let params = useParams();
 
     const [columns, setColumns] = useRecoilState(columnsState);
     const cardEdit = useRecoilValue(cardEditModalState);
+
+    useEffect(() => {
+        if(search) {
+            searchCards(searchString);
+        }
+    }, [columns])
 
     const addColumn = async (event) => {
         event.preventDefault();
@@ -126,6 +135,33 @@ const Board = () => {
         } else setBoardNameEdit(false);
     };
 
+    const searchCards = (searchedText) => {
+        setSearchString(searchedText);
+        let columnsCpy = [...columns];
+        columnsCpy = columnsCpy.reduce((prevColumns, column) => {
+            let re = new RegExp(searchedText, "gi");
+            if (column.name.match(re)) {
+                return [...prevColumns, column];
+            } else {
+                let cards = column.cards.reduce((prevCards, card) => {
+                    if (card.name.match(re)) return [...prevCards, card];
+                    else return [...prevCards];
+                }, []);
+
+                if (cards.length) {
+                    return [
+                        ...prevColumns,
+                        {
+                            ...column,
+                            cards,
+                        },
+                    ];
+                } else return [...prevColumns];
+            }
+        }, []);
+        setSearchedColumns(columnsCpy);
+    };
+
     useEffect(() => {
         if (setBoardNameEdit) {
             const input = document.querySelector("[name='boardName']");
@@ -174,6 +210,7 @@ const Board = () => {
                             }}
                             onClick={() => {
                                 setSearch(!search);
+                                setSearchedColumns([]);
                                 setAddColumnForm(false);
                             }}
                         >
@@ -223,9 +260,15 @@ const Board = () => {
                         Sfat: Adaugă o coloană utilizând simbolul +
                     </p>
                 );
-            return columns.map((column) => {
-                return <ColumnDesktop key={column.id} value={column} />;
-            });
+            if (!search) {
+                return columns.map((column) => {
+                    return <ColumnDesktop key={column.id} value={column} />;
+                });
+            } else {
+                return searchedColumns.map((column) => {
+                    return <ColumnDesktop key={column.id} value={column} />;
+                });
+            }
         } else {
             return <ColumnMobile />;
         }
@@ -247,9 +290,10 @@ const Board = () => {
                                 type="text"
                                 name="search"
                                 value={searchString}
-                                onChange={(event) =>
-                                    setSearchString(event.target.value)
-                                }
+                                onChange={(event) => {
+                                    event.preventDefault();
+                                    searchCards(event.target.value);
+                                }}
                             />
                             <i className="fas fa-search"></i>
                         </form>
