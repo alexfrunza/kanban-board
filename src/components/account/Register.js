@@ -56,7 +56,7 @@ const Register = () => {
             </h2>
             <form className="registerForm" onSubmit={submitRegister}>
                 <input autoComplete="off" name="email" placeholder="Email" />
-                <input autoComplete="off" name="nickname" placeholder="Prorecla" />
+                <input autoComplete="off" name="nickname" placeholder="Porecla" />
                 <input autoComplete="off" name="password" type="password" placeholder="Parola" />
                 <button type="submit"> Înregistrare </button>
             </form>
