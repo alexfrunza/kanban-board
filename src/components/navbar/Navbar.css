@@ -1,7 +1,7 @@
 nav {
     position: relative;
     background-color: var(--white);
-    font-size: 2rem;
+    font-size: 1.5rem;
     padding: 0.5rem;
     display: flex;
     min-height: 3.5rem;
